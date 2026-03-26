@@ -1,0 +1,23 @@
+# Unity folders
+Library/
+Temp/
+Obj/
+Build/
+Builds/
+Logs/
+UserSettings/
+
+# Visual Studio / Rider
+.vs/
+*.csproj
+*.sln
+*.user
+*.pidb
+*.booproj
+
+# Unity cache
+MemoryCaptures/
+
+# OS files
+.DS_Store
+Thumbs.db
