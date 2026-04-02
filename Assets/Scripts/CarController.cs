@@ -1,89 +1,252 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem; // Thư viện nhận nút bấm VR
+using UnityEngine.InputSystem;
 using TMPro;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class VR_CarController : MonoBehaviour
 {
     [Header("Cài đặt Di chuyển & Vật lý")]
-    public float maxSpeed = 20f;       // Tốc độ tối đa xe có thể đạt được
-    public float acceleration = 5f;    // Lực ga (Tăng tốc từ từ khi giữ W)
-    public float brakingForce = 15f;   // Lực phanh (Giảm tốc cực nhanh khi giữ S)
-    public float friction = 2f;        // Ma sát (Xe tự trôi chậm lại khi nhả tay ra)
-    public float turnSpeed = 50f;      // Tốc độ bẻ lái
+    public float maxSpeed = 20f;
+    public float acceleration = 5f;
+    public float brakingForce = 15f;
+    public float friction = 2f;
+    public float turnSpeed = 50f;
 
-    [Header("Gắn hiển thị Chữ (TMP)")]
+    [Header("Gắn UI Hướng dẫn, Taplo & Tai Nạn")]
     public TextMeshProUGUI gearDisplay;
+    public GameObject tutorialPanel;
+    public GameObject accidentPanel;
+    public float resetDelay = 3f;
 
     [Header("Gắn nút trên tay cầm VR")]
-    public InputActionReference buttonD; // Nút A
-    public InputActionReference buttonR; // Nút B
-    public InputActionReference buttonN; // Nút Grip
+    public InputActionReference buttonD;
+    public InputActionReference buttonR;
+    public InputActionReference buttonN;
+
+    [Header("Âm thanh Hệ thống")]
+    public AudioSource engineAudio;
+    public AudioClip startupClip;
+    public AudioClip idleClip;
+    public float overlapTime = 0.5f;
+    public AudioSource gasAudio;
+    public AudioSource brakeAudio;
+    public float minPitch = 0.8f;
+    public float maxPitch = 2.5f;
+
+    [Header("Xin Nhan & Gương VR")]
+    public Transform vrHeadset;
+    public Transform leftMirror;
+    public Transform rightMirror;
+
+    [Header("Âm thanh Tai nạn")]
+    public AudioSource crashAudioSource; // Loa phát tiếng đâm xe
+
+    [Header("xin nhan")]
+    // --- BÌNH MỚI: BIẾN CHO ĐÈN VÀ TIẾNG XI-NHAN ---
+    public GameObject leftSignalLight;  // Gắn đèn mũi tên trái
+    public GameObject rightSignalLight; // Gắn đèn mũi tên phải
+    public AudioSource signalAudio;     // Gắn cái Loa tiếng "tạch"
+    public float blinkInterval = 0.5f;  // Tốc độ nhấp nháy (0.5 giây)
+
+    public bool isLeftSignalOn = false;
+    public bool isRightSignalOn = false;
+    public bool hasLookedLeftMirror = false;
+    public bool hasLookedRightMirror = false;
+
+    private float blinkTimer = 0f;
+    private bool isLightOn = false;
+    // ----------------------------------------------
 
     private string currentGear = "N";
-    private float currentSpeed = 0f;   // Biến lưu trữ tốc độ thực tế của xe
+    private float currentSpeed = 0f;
+    private bool isCrashed = false;
 
     void Start()
     {
+        Time.timeScale = 1f;
         UpdateGearDisplay();
+        if (tutorialPanel != null) tutorialPanel.SetActive(true);
+        if (accidentPanel != null) accidentPanel.SetActive(false);
+        if (engineAudio != null && startupClip != null && idleClip != null) StartCoroutine(StartEngineRoutine());
+
+        // Đảm bảo đèn tắt lúc mới vào game
+        if (leftSignalLight != null) leftSignalLight.SetActive(false);
+        if (rightSignalLight != null) rightSignalLight.SetActive(false);
+    }
+
+    IEnumerator StartEngineRoutine()
+    {
+        engineAudio.clip = startupClip;
+        engineAudio.loop = false;
+        engineAudio.Play();
+        float waitTime = startupClip.length - overlapTime;
+        if (waitTime < 0) waitTime = 0;
+        yield return new WaitForSeconds(waitTime);
+        engineAudio.clip = idleClip;
+        engineAudio.loop = true;
+        engineAudio.Play();
     }
 
     void Update()
     {
-        // 1. NHẬN LỆNH ĐỔI SỐ (Dùng nút tay cầm VR HOẶC dùng phím số 1, 2, 3 để test trên máy)
+        if (isCrashed) return;
+
+        // -- BẬT TẮT XIN NHAN BẰNG PHÍM (Có logic tắt trừ chéo) --
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            isLeftSignalOn = !isLeftSignalOn;
+            if (isLeftSignalOn) isRightSignalOn = false; // Bật trái thì tự tắt phải
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            isRightSignalOn = !isRightSignalOn;
+            if (isRightSignalOn) isLeftSignalOn = false; // Bật phải thì tự tắt trái
+        }
+
+        // -- CHẠY HIỆU ỨNG NHẤP NHÁY & ÂM THANH --
+        HandleTurnSignals();
+
+        // -- CHECK NHÌN GƯƠNG --
+        CheckLookingAtMirrors();
+
+        // -- LOGIC LÁI XE --
         if ((buttonD != null && buttonD.action.WasPressedThisFrame()) || Input.GetKeyDown(KeyCode.Alpha2)) SetGearD();
         if ((buttonR != null && buttonR.action.WasPressedThisFrame()) || Input.GetKeyDown(KeyCode.Alpha3)) SetGearR();
         if ((buttonN != null && buttonN.action.WasPressedThisFrame()) || Input.GetKeyDown(KeyCode.Alpha1)) SetGearN();
 
-        // 2. LẤY TÍN HIỆU GA/PHANH (Tay cầm VR hoặc phím W S A D)
         float joystickVertical = Input.GetAxisRaw("Vertical");
         float joystickHorizontal = Input.GetAxisRaw("Horizontal");
 
-        // 3. XỬ LÝ GIA TỐC VÀ PHANH (Chỉ tính toán khi xe đã vào số D hoặc R)
         if (currentGear != "N")
         {
-            if (joystickVertical > 0) // Đạp ga (Giữ W hoặc đẩy Joystick lên)
+            if (joystickVertical > 0)
             {
-                currentSpeed += acceleration * Time.deltaTime; // Tăng tốc từ từ
+                currentSpeed += acceleration * Time.deltaTime;
+                if (gasAudio != null && !gasAudio.isPlaying) gasAudio.Play();
+                if (brakeAudio != null && brakeAudio.isPlaying) brakeAudio.Stop();
             }
-            else if (joystickVertical < 0) // Đạp phanh (Giữ S hoặc kéo Joystick xuống)
+            else if (joystickVertical < 0)
             {
-                currentSpeed -= brakingForce * Time.deltaTime; // Giảm tốc độ cực nhanh
+                if (currentSpeed > 1f && brakeAudio != null && !brakeAudio.isPlaying) brakeAudio.Play();
+                currentSpeed -= brakingForce * Time.deltaTime;
+                if (gasAudio != null && gasAudio.isPlaying) gasAudio.Stop();
             }
-            else // Nhả ga (Không bấm gì)
+            else
             {
-                currentSpeed -= friction * Time.deltaTime; // Xe tự động trôi chậm lại do ma sát
+                currentSpeed -= friction * Time.deltaTime;
+                if (gasAudio != null && gasAudio.isPlaying) gasAudio.Stop();
+                if (brakeAudio != null && brakeAudio.isPlaying && currentSpeed < 1f) brakeAudio.Stop();
             }
         }
         else
         {
-            // Nếu xe đang ở số N (Mo), vòng tua máy rỗng, xe tự giảm tốc đến khi dừng hẳn
             currentSpeed -= friction * Time.deltaTime;
+            if (gasAudio != null && gasAudio.isPlaying) gasAudio.Stop();
+            if (brakeAudio != null && brakeAudio.isPlaying) brakeAudio.Stop();
         }
 
-        // Ép tốc độ: Không bao giờ được chạy lùi (dưới 0) và không vượt quá giới hạn tối đa
         currentSpeed = Mathf.Clamp(currentSpeed, 0f, maxSpeed);
 
-        // 4. ÁP DỤNG DI CHUYỂN DỰA VÀO SỐ VÀ TỐC ĐỘ ĐÃ TÍNH
         if (currentGear != "N")
         {
-            // Xác định hướng đi: D là tiến (1), R là lùi (-1)
             float moveDirection = (currentGear == "D") ? 1f : -1f;
             transform.Translate(0, 0, moveDirection * currentSpeed * Time.deltaTime);
 
-            // 5. XỬ LÝ ĐÁNH LÁI (Chỉ cho phép bẻ vô lăng khi xe đang lăn bánh để mô phỏng đời thực)
             if (currentSpeed > 0.1f)
             {
-                // Khi lùi (R) thì đảo chiều trục lái
                 float turnDir = (currentGear == "R") ? -1f : 1f;
                 transform.Rotate(0, joystickHorizontal * turnSpeed * turnDir * Time.deltaTime, 0);
             }
         }
+
+        if (engineAudio != null && engineAudio.clip == idleClip)
+        {
+            float speedRatio = currentSpeed / maxSpeed;
+            engineAudio.pitch = Mathf.Lerp(minPitch, maxPitch, speedRatio);
+        }
     }
 
-    // --- CÁC HÀM XỬ LÝ SỐ ---
+    // --- HÀM XỬ LÝ NHẤP NHÁY XI-NHAN ---
+    void HandleTurnSignals()
+    {
+        // Nếu có bật 1 trong 2 bên
+        if (isLeftSignalOn || isRightSignalOn)
+        {
+            blinkTimer += Time.deltaTime; // Bộ đếm thời gian chạy
+
+            // Đủ 0.5 giây thì đảo trạng thái đèn (Bật thành Tắt, Tắt thành Bật)
+            if (blinkTimer >= blinkInterval)
+            {
+                blinkTimer = 0f; // Reset đếm lại
+                isLightOn = !isLightOn;
+
+                // Nếu đèn vừa Bật sáng -> Phát tiếng "Tạch"
+                if (isLightOn && signalAudio != null)
+                {
+                    signalAudio.Play();
+                }
+            }
+        }
+        else // Nếu tắt cả 2 xi-nhan
+        {
+            isLightOn = false;
+            blinkTimer = 0f;
+        }
+
+        // Áp dụng trạng thái tắt/bật cho đúng cái bóng đèn đang được chọn
+        if (leftSignalLight != null) leftSignalLight.SetActive(isLeftSignalOn && isLightOn);
+        if (rightSignalLight != null) rightSignalLight.SetActive(isRightSignalOn && isLightOn);
+    }
+
+    void CheckLookingAtMirrors()
+    {
+        if (vrHeadset == null) return;
+        if (leftMirror != null)
+        {
+            Vector3 dirToLeft = (leftMirror.position - vrHeadset.position).normalized;
+            if (Vector3.Angle(vrHeadset.forward, dirToLeft) < 20f) hasLookedLeftMirror = true;
+        }
+        if (rightMirror != null)
+        {
+            Vector3 dirToRight = (rightMirror.position - vrHeadset.position).normalized;
+            if (Vector3.Angle(vrHeadset.forward, dirToRight) < 20f) hasLookedRightMirror = true;
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Road") || isCrashed) return;
+        if (currentSpeed < 2f && !collision.gameObject.CompareTag("EnemyMoto")) return;
+
+        isCrashed = true;
+
+        if (crashAudioSource != null) crashAudioSource.Play();
+
+        // Bị tai nạn thì tắt hết luôn xi nhan và tiếng
+        isLeftSignalOn = false;
+        isRightSignalOn = false;
+        if (leftSignalLight != null) leftSignalLight.SetActive(false);
+        if (rightSignalLight != null) rightSignalLight.SetActive(false);
+
+        if (gasAudio != null) gasAudio.Stop();
+        if (brakeAudio != null) brakeAudio.Stop();
+        if (engineAudio != null) engineAudio.Stop();
+        if (accidentPanel != null) accidentPanel.SetActive(true);
+        Time.timeScale = 0f;
+        StartCoroutine(ResetGameRoutine());
+    }
+
+    IEnumerator ResetGameRoutine()
+    {
+        yield return new WaitForSecondsRealtime(resetDelay);
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     public void SetGearN() { currentGear = "N"; UpdateGearDisplay(); }
-    public void SetGearD() { currentGear = "D"; UpdateGearDisplay(); }
-    public void SetGearR() { currentGear = "R"; UpdateGearDisplay(); }
+    public void SetGearD() { currentGear = "D"; UpdateGearDisplay(); if (tutorialPanel != null) tutorialPanel.SetActive(false); }
+    public void SetGearR() { currentGear = "R"; UpdateGearDisplay(); if (tutorialPanel != null) tutorialPanel.SetActive(false); }
 
     void UpdateGearDisplay()
     {
