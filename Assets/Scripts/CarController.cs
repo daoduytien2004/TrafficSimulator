@@ -17,6 +17,7 @@ public class VR_CarController : MonoBehaviour
     public TextMeshProUGUI gearDisplay;
     public GameObject tutorialPanel;
     public GameObject accidentPanel;
+    public GameObject wrongWayPanel;
     public float resetDelay = 3f;
 
     [Header("Gắn nút trên tay cầm VR")]
@@ -257,5 +258,25 @@ public class VR_CarController : MonoBehaviour
             else if (currentGear == "R") gearDisplay.color = Color.red;
             else gearDisplay.color = Color.white;
         }
+    }
+
+    // HÀM GỌI KHI ĐI SAI ĐƯỜNG
+    public void TriggerWrongWay()
+    {
+        if (isCrashed) return; // Nếu đang bị tai nạn rồi thì thôi không báo sai đường nữa
+
+        isCrashed = true; // Khóa điều khiển xe lại
+
+        // Hiện bảng báo sai đường
+        if (wrongWayPanel != null) wrongWayPanel.SetActive(true);
+
+        // Tắt hết âm thanh động cơ
+        if (gasAudio != null) gasAudio.Stop();
+        if (brakeAudio != null) brakeAudio.Stop();
+        if (engineAudio != null) engineAudio.Stop();
+
+        // Dừng thời gian và khởi động lại game
+        Time.timeScale = 0f;
+        StartCoroutine(ResetGameRoutine());
     }
 }

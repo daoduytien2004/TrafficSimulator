@@ -42,7 +42,7 @@ public class FinishZone : MonoBehaviour
         // 4. Dừng thời gian (Đóng băng game)
         Time.timeScale = 0f;
 
-        // 5. Đợi một lát rồi quay lại màn hình chính hoặc chơi lại
+        // 5. Đợi một lát rồi quay lại màn hình chính
         StartCoroutine(RestartAfterVictory());
     }
 
@@ -51,6 +51,9 @@ public class FinishZone : MonoBehaviour
         // Vì Time.timeScale = 0 nên phải dùng WaitForSecondsRealtime
         yield return new WaitForSecondsRealtime(restartDelay);
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        // --- ĐÃ SỬA MỚI: QUAY VỀ MENU CHÍNH ---
+        SceneManager.LoadScene("MainMenu");
+        // --------------------------------------
     }
 }
