@@ -1,0 +1,1175 @@
+fileFormatVersion: 2
+guid: dfe3c4dccc4f48a4c8d1dd3262c2027e
+ModelImporter:
+  serializedVersion: 24200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Archeological site
+    second: {fileID: 2100000, guid: 8bb37008a4df5c344a3f4addc426d231, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Bicycles only
+    second: {fileID: 2100000, guid: 3c009b8e165fe16408ac4bce88e2ddcb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Bus only
+    second: {fileID: 2100000, guid: c4ce8aa7370a5654da06ad1156471a89, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Buses only
+    second: {fileID: 2100000, guid: 6359bfa310c9edf44b13ee90612f0184, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cave
+    second: {fileID: 2100000, guid: 2d0d2c38a66c14743b4891c9785f407c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Church
+    second: {fileID: 2100000, guid: ca0875d038063f24ebfba62535e03f9c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fixation
+    second: {fileID: 2100000, guid: 99bc72e001013784998413c7cc9ea8ac, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Forest park
+    second: {fileID: 2100000, guid: 1fa0ca6d96a03514bb70e5759df755ae, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Give way (thai english)
+    second: {fileID: 2100000, guid: 5af6597c8305a4a41a002c57d6ee69e5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Give way (thai)
+    second: {fileID: 2100000, guid: 551e5c68d14b1b642818a2afdd327074, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Give way to oncoming vehicles
+    second: {fileID: 2100000, guid: 8c3e05708e64b5746b6d48a35a184dae, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Go straight
+    second: {fileID: 2100000, guid: fd9ff1c6a0e2ea246a8f5cc15c34f7fe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: HOW lane
+    second: {fileID: 2100000, guid: 422dfb7678db36848909c9d55104a320, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Island
+    second: {fileID: 2100000, guid: 859a92b704b01574ea120d7037e8f101, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mosque
+    second: {fileID: 2100000, guid: e061d2baa6c224840866482e067450f3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Motorbikes only
+    second: {fileID: 2100000, guid: 9a58d91f530e5fc48b45d60e2824cff3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mountain
+    second: {fileID: 2100000, guid: af59145106c43ed419c0548a955e4d92, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No U turn
+    second: {fileID: 2100000, guid: 90bfd06039d4c924883628c2106264cb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No bicycles
+    second: {fileID: 2100000, guid: fe12ab76f89bcf943b5e661d0792664e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No cars
+    second: {fileID: 2100000, guid: 65f9c044fcef5db4e90bc7eb258bbbfa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No entry
+    second: {fileID: 2100000, guid: c0c779c40517f4c42a970768ebd1a918, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No left turn
+    second: {fileID: 2100000, guid: 23626aa5fb551a0468ee2a2a618ffe45, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No parking
+    second: {fileID: 2100000, guid: 4dcea9bcf55d88947bad1527bb46af2e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No pedestrrians
+    second: {fileID: 2100000, guid: 3a2434f62dd72f048885650e76e52c8a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No right turn
+    second: {fileID: 2100000, guid: 16831a1ba1b2f9143b34ed8ffef47067, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No stopping or parking
+    second: {fileID: 2100000, guid: 606005a369243e24bb35a3fda96ba2ab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No trailers
+    second: {fileID: 2100000, guid: c93f52ae54d4c0d4b80eb657a52adae8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No trucks
+    second: {fileID: 2100000, guid: bb83c29598a86184b93ee20ef14c1547, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: One way
+    second: {fileID: 2100000, guid: 86731739679461347a055e9253120ef9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Parking lot
+    second: {fileID: 2100000, guid: 6b2a1187591035046a9ea79c7963e319, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pole
+    second: {fileID: 2100000, guid: 3d9df94fb3b4c7a41a1dd68ec4d2215a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Roundabout
+    second: {fileID: 2100000, guid: fd10255afa12dad4ea880467320e91ce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SL30
+    second: {fileID: 2100000, guid: 13308dfd24f17d34eaea535b6da925b9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SL40
+    second: {fileID: 2100000, guid: 3c549c2067557b847b7a69420d32b035, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SL50
+    second: {fileID: 2100000, guid: f108826a31fafc347a9af94bb0c9957c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SL60
+    second: {fileID: 2100000, guid: dc7205b5ac2f8d3409ab97fda3eb9507, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SL70
+    second: {fileID: 2100000, guid: 4b7e3952ea869ee4e8441e0257b6aa78, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SL80
+    second: {fileID: 2100000, guid: b80dce718a9635e4da76f5d16572dea3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Shrine
+    second: {fileID: 2100000, guid: 648cc311e98028947926d583234d37a2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stop
+    second: {fileID: 2100000, guid: 1fb9cf80de3831d4c90ad829a6be83ad, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Straight and turn left
+    second: {fileID: 2100000, guid: 43bcf5b7c256e0d45ab78e3adbfcda57, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Straight and turn right
+    second: {fileID: 2100000, guid: a249ea499c5ea544b99b4d0db6b62313, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Support
+    second: {fileID: 2100000, guid: dbd0b6a02504ffb4591afeb1f160d660, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tram only
+    second: {fileID: 2100000, guid: 60cfe2785a0ba39489b17d317f971647, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Turn left
+    second: {fileID: 2100000, guid: d8076f49073b34e4f8f0b175ed483a1b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Turn left or right
+    second: {fileID: 2100000, guid: 993b040186e975441a7a3371cbc64312, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Turn right
+    second: {fileID: 2100000, guid: 79ace83228c58b647a8f831b577a3881, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Waterfall
+    second: {fileID: 2100000, guid: 715da754287634245a56aea620035ddc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Zoo
+    second: {fileID: 2100000, guid: a7cb2f8a2afa089419a751ebc8b950c0, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Archeologic site
+    second: {fileID: 2800000, guid: 808c8a4566bdcbc4bbf87d3c1a59916c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Archeologic-site-bump
+    second: {fileID: 2800000, guid: 5f09a327049a69341ad062fd99760877, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Archeologic-site-roughness
+    second: {fileID: 2800000, guid: 12a5c963ed1cb514492c7d3bb199ee4a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bicycles only
+    second: {fileID: 2800000, guid: 3f7dec2cfe6085040944639d4710a863, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bicycles-only-bump
+    second: {fileID: 2800000, guid: 19e328da51f8aea419d6ced68b0be1f9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bicycles-only-roughness
+    second: {fileID: 2800000, guid: 2c61e10a5e1448e4db584b970a17f746, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Buses only
+    second: {fileID: 2800000, guid: 8a69ebd8a49bd2844abec5e0b0876b4b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Buses-only-bump
+    second: {fileID: 2800000, guid: 59d971657df3b0d4f8ba56641e707597, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Buses-only-roughness
+    second: {fileID: 2800000, guid: 91596939699fa3c4a97cebe4f2c5e2ab, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cave
+    second: {fileID: 2800000, guid: 58266b43ce282d641a4da593d702f690, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cave-bump
+    second: {fileID: 2800000, guid: 06b7de061e1d7e84ca0ed3b4099c38bf, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cave-roughness
+    second: {fileID: 2800000, guid: 34cfa2c32e135c847afce9b958da28d5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Church
+    second: {fileID: 2800000, guid: 3f51930a983b4254d8637a1114aee483, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Church-roughness
+    second: {fileID: 2800000, guid: 5f2bcfc68c1609a44bbd284cc69bd5ed, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Crosswalk-bump
+    second: {fileID: 2800000, guid: 5da9aba261aef1a48a10e3ad898af1f0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Crosswalk-roughness
+    second: {fileID: 2800000, guid: 16ab4e5c2c1c20f4d96f72b1ede950d6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Crosswalk_1
+    second: {fileID: 2800000, guid: 467378e7df51a994687290094540b6c2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Dead end
+    second: {fileID: 2800000, guid: 32b1e180815a5c946a710e3303fc89b5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Dead-end-bump
+    second: {fileID: 2800000, guid: 7659a880891428340afedbcc6f62471a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Dead-end-roughness
+    second: {fileID: 2800000, guid: a4eb61082398f9546a338c8d26cd1009, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Disabled person
+    second: {fileID: 2800000, guid: 6f47409dc69fa5e4e88c6af3eb22e0bd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Disabled-person
+    second: {fileID: 2800000, guid: b484cac55d7e35441b7e1db3fbba2c46, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Disabled-person-roughness
+    second: {fileID: 2800000, guid: 36ae407dbe13efb46897b5f9928348b6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Forest park
+    second: {fileID: 2800000, guid: ae5570377cd8f2d489c2f08733962a65, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Forest-park-bump
+    second: {fileID: 2800000, guid: 415868f10d4216e468680f82d41ec3f4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Forest-park-roughness
+    second: {fileID: 2800000, guid: 35d0fd4d54c8e6a4b9e1753e8f3b5dfc, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Give way (thai english)
+    second: {fileID: 2800000, guid: 4f0e0c30a6f70df4a9969e808c595a32, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Give way (thai only)
+    second: {fileID: 2800000, guid: a050865475e6c4048814815493cb4612, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Give way to oncoming vehicles
+    second: {fileID: 2800000, guid: 6734895855ffb114191c1cf80bd6ab1f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Give-way-(thai-english)-bump
+    second: {fileID: 2800000, guid: 42718a1fd62647e48b7ba1a37dc3f8d5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Give-way-(thai-english)-roughness
+    second: {fileID: 2800000, guid: 3fed2aac2934d7c4283e1c374096415e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Give-way-(thai-only)-roughness
+    second: {fileID: 2800000, guid: c5a1eb2d376bea24da56ea6982287345, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Give-way-to-oncoming-vehicles-bump
+    second: {fileID: 2800000, guid: 9d65da3852fa0984bb6e793ab9f24f26, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Give-way-to-oncoming-vehicles-roughness
+    second: {fileID: 2800000, guid: 937d3031a4be8fc419bf34e557e1db1d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Give-wqy-(thai-only)-bump
+    second: {fileID: 2800000, guid: 94529c5594737654b89d11a8b1bcedfb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Go staight
+    second: {fileID: 2800000, guid: d2c922168ffae9643bf17ed3fe1f860a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Go straight or left
+    second: {fileID: 2800000, guid: 6044f68e34fe60846acedc140d0e2074, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Go straight or right
+    second: {fileID: 2800000, guid: 13e2954bec01979488fa28bf94b07be5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Go-straight-bump
+    second: {fileID: 2800000, guid: 10e04e9fc053fb1479f3a84dc536b412, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Go-straight-or-left-bump
+    second: {fileID: 2800000, guid: 1c7640591e1ea52459f3db71408cedc0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Go-straight-or-left-roughness
+    second: {fileID: 2800000, guid: 30dae44215521e34ab271a2f0d958a7d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Go-straight-or-right-bump
+    second: {fileID: 2800000, guid: 5173870ed635bf44d864e5f5f4832db8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Go-straight-or-right-roughness
+    second: {fileID: 2800000, guid: e4dade92a48a66e45af3c43999575fe2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Go-straight-roughness
+    second: {fileID: 2800000, guid: 2e8016b196bf40a4e898e86e35b62aa3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Hospital
+    second: {fileID: 2800000, guid: 0269b60453f7ac24b982f9f2813af659, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Hospital-bump
+    second: {fileID: 2800000, guid: 28c46716f0e99ab46a3b23ad2388edf8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Hospital-roughness
+    second: {fileID: 2800000, guid: 87aad9fad279b3b4391a0fac3bee9ecd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Island
+    second: {fileID: 2800000, guid: c2826090cb5b3df42baa699690b455b0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Island-bump
+    second: {fileID: 2800000, guid: b545bf11be2da6b45804bb1795b33d1e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Island-roughness
+    second: {fileID: 2800000, guid: 466e997af21db42409c0442795ab08e7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Metal_001_height
+    second: {fileID: 2800000, guid: babee66301f45aa49b31abcfa126b52b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Metal_001_roughness
+    second: {fileID: 2800000, guid: 5016c54772b28254cbb93f73f9d0ca4b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Metal_Pitted_001_height
+    second: {fileID: 2800000, guid: 3e707a6d397114f49b48582bdbd101a5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Metal_Pitted_001_roughness
+    second: {fileID: 2800000, guid: f185c5d71f2641d42aa730be2e47f27a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Mosque
+    second: {fileID: 2800000, guid: 401e6ec08d791b848900f29c9a546772, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Mosque-bump
+    second: {fileID: 2800000, guid: 5d978caafe9214848bf5a0fac561448c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Mosque-roughness
+    second: {fileID: 2800000, guid: 1f8d54b9543f2524fb63a005bd53e783, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Motorbikes only
+    second: {fileID: 2800000, guid: 7f47c5146cc87074782aad137bc2802e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Motorbikes-only-bump
+    second: {fileID: 2800000, guid: 574e239ed93a45f448717054c84b84e0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Motorbikes-only-roughness
+    second: {fileID: 2800000, guid: a1211617402eb4c459461b8e3022dd07, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Mountain
+    second: {fileID: 2800000, guid: a42f1714367cb8f459d32ba98e111b06, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Mountain-bump
+    second: {fileID: 2800000, guid: 6dde1f18c66c88743a515cd34dce1bb3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Mountain-roughness
+    second: {fileID: 2800000, guid: bf596d75f20a15c449d0d6b1f47e397e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Museum
+    second: {fileID: 2800000, guid: 57b4f851259224e4e9726cbb270fda85, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Museum-bump
+    second: {fileID: 2800000, guid: b29b69ce4cc178943a1243eb4235d077, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Museum-roughness
+    second: {fileID: 2800000, guid: 7cca6eecc7071c9499ec895ea3f94e50, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No U turn
+    second: {fileID: 2800000, guid: 55cdbef8019d0c044a5e54f5db844755, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No bicycles
+    second: {fileID: 2800000, guid: 0de86e43990ccbd468adc7351e03d50c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No cars
+    second: {fileID: 2800000, guid: fce7c4f1539784c41ab3eb69f0a1d9ab, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No carts
+    second: {fileID: 2800000, guid: 9fd6bc7c05e9edf41a68b0231fa6fee0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No entry
+    second: {fileID: 2800000, guid: e89866cad25cf964f82443697b23349f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No left turn
+    second: {fileID: 2800000, guid: 94fac74edb4b8d54baecdc53ba5971c8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No motorbikes
+    second: {fileID: 2800000, guid: c3a4f29211924774b8512e48e64bbd02, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No parking
+    second: {fileID: 2800000, guid: f5a2952710ce3074a88869866a0ebdaa, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No pedestrians
+    second: {fileID: 2800000, guid: 49d7ef599095b624fb5fba6dad5673ec, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No right turn
+    second: {fileID: 2800000, guid: 35216cf1818174b4181d14c1e2886385, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No stopping
+    second: {fileID: 2800000, guid: 3c2cb686f5434e14f99788e03d7bc700, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No tricycles
+    second: {fileID: 2800000, guid: a12f6ded3e6de9745a580f9f87ed17bc, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No trucks
+    second: {fileID: 2800000, guid: 87704585606b4874baafc1a8093eb7b3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No tuk-tuk
+    second: {fileID: 2800000, guid: 4da2d38e9c590b145803431c84aef4ed, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-Tuk-tuks-bump
+    second: {fileID: 2800000, guid: 6304866afe439b54aac405184d841e97, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-Tuk-tuks-roughness
+    second: {fileID: 2800000, guid: 5f2de8cee61237849917619a18686e2c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-U-turn-bump
+    second: {fileID: 2800000, guid: ad46d8289b1d885419d936598a981638, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-U-turn-roughness
+    second: {fileID: 2800000, guid: 10befefe45ccac14d9ee4e91239b6fcf, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-bicycles-bump
+    second: {fileID: 2800000, guid: b6063d317e5d17c42b7adf9ff2713788, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-bicycles-rougyhness
+    second: {fileID: 2800000, guid: 5e2d3f799f93c11429b4604741833471, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-cars-bump
+    second: {fileID: 2800000, guid: 55c402d12cec98845b035531d59f886e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-cars-roughness
+    second: {fileID: 2800000, guid: 11f7820cebf534b48a4a92c4756096ec, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-carts-bump
+    second: {fileID: 2800000, guid: 86e5a801a8579e04a9665d595c5267df, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-carts-roughness
+    second: {fileID: 2800000, guid: a7c643f21eb829e4593285efe9982a01, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-entry-bump
+    second: {fileID: 2800000, guid: 4ed79df00d4db4749bd881b3cdc16534, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-entry-roughness
+    second: {fileID: 2800000, guid: f73b73bf1f48ffe4da68aa90cd8c3d1b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-left-turn-bump
+    second: {fileID: 2800000, guid: 4b2ab67d2d69cc648b4176919ddccfdf, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-left-turn-roughness
+    second: {fileID: 2800000, guid: b8b3b20d8d3f04141828945f481a0d6e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-motorbikes-bump
+    second: {fileID: 2800000, guid: ffa64b85e79c3ae469f0900a64a594bc, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-motorbikes-roughness
+    second: {fileID: 2800000, guid: 53051e97b20d9ac458e7aeb64f2aa6a1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-parking-bump
+    second: {fileID: 2800000, guid: 55ef35926bc1a7e4780ccbb725086b49, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-parking-roughness
+    second: {fileID: 2800000, guid: 9e04ceed987c784468674c1c5ed4a8ac, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-pedestrians-bump
+    second: {fileID: 2800000, guid: b06c5fd96dd00fb449e8454e64b6537f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-pedestrians-roughness
+    second: {fileID: 2800000, guid: 790eb573578e8e84da0d8adf5eae147a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-right-turn-bump
+    second: {fileID: 2800000, guid: 1f7f4dfe740cd4d4ca2b874763a8218f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-right-turn-roughness
+    second: {fileID: 2800000, guid: f327325ede57256468aa52a931e5f154, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-stopping-bump
+    second: {fileID: 2800000, guid: 0ff8ada3783b9074e999db2567cfb5b9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-stopping-roughness
+    second: {fileID: 2800000, guid: 660d643ebb3d8c64abae985fa294754b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-tricycles-bump
+    second: {fileID: 2800000, guid: 721569279b93cff4294b8dcd7f1209d4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-tricycles-roughness
+    second: {fileID: 2800000, guid: 15a15827eb90e5a4db7301877ad5bcea, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-trucks-bump
+    second: {fileID: 2800000, guid: 86f5c054c33dd1046bbc2ec9399c27f7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: No-trucks-roughness
+    second: {fileID: 2800000, guid: 9c6fcc53d2e7cc64493950a501994583, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Pedestrians only
+    second: {fileID: 2800000, guid: e282ff115a4e76b4ea6f7f8b2b98ba31, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Pedestrians-only-bump
+    second: {fileID: 2800000, guid: 701d65f4954941043a49b9902c5688e6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Pedestrians-only-roughness
+    second: {fileID: 2800000, guid: d4252d252fa899447a944f77c1dee130, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Research laboratory
+    second: {fileID: 2800000, guid: 4e09d48033a8875408dfaedd68709886, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Research-laboratory-bump
+    second: {fileID: 2800000, guid: 3d96b60ef66d48542bcef98ee12fdd94, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Research-laboratory-roughness
+    second: {fileID: 2800000, guid: 9f32602b554dafa43bf5a6472072708c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Roughness-bump
+    second: {fileID: 2800000, guid: ecdffdc2358fcf14f8cb8a9325f5d43a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Roundabout
+    second: {fileID: 2800000, guid: 3d084855722f9224aa62e80ef697cda4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Roundabout-bump
+    second: {fileID: 2800000, guid: 216e25d1ebc1f8d4a9e2130705c15ff3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Roundabout-roughness
+    second: {fileID: 2800000, guid: 8d237266135d56c4894a330da37fe87b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Shrine
+    second: {fileID: 2800000, guid: 5ab397566ee137742ba224644801eb1d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Shrine-bump
+    second: {fileID: 2800000, guid: 134d0516d8c95af4a968ffc60dd48834, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Shrine-roughness
+    second: {fileID: 2800000, guid: 7fc66ee721c11c44f94626b60fc10745, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed limit 120kmh
+    second: {fileID: 2800000, guid: 878034e7067522347826b3401c43fa30, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed limit 30kmh
+    second: {fileID: 2800000, guid: 511f9dfaeb40bd44b8cbad39c25c7de8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed limit 40kmh
+    second: {fileID: 2800000, guid: 3d393f9350ee7624a9a7803ce9d6506d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed limit 50kmh
+    second: {fileID: 2800000, guid: 5a4eaaae27c694847a5e90212cb3d126, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed limit 60kmh
+    second: {fileID: 2800000, guid: dfb1c9ba47ff5c945a31aac5b652b394, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed limit 70kmh
+    second: {fileID: 2800000, guid: 7d2d66f7951aa1b4390b76d1a6dfc862, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed limit 80kmh
+    second: {fileID: 2800000, guid: 2d4c7ea5e8fa3064f818b52b8c1d1767, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed-limit-120kmh-bump
+    second: {fileID: 2800000, guid: 9e36d1f11a9e7f842b942708a7b48317, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed-limit-120kmh-roughness
+    second: {fileID: 2800000, guid: b4c32d89ad1164442b75ab52d6f72d4b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed-limit-30kmh-bump
+    second: {fileID: 2800000, guid: 1c4b9fab8b2d771458bfe7d221a138d0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed-limit-30kmh-roughness
+    second: {fileID: 2800000, guid: cafb5c4cc729b2e47896b789b699bd44, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed-limit-40kmh-bump
+    second: {fileID: 2800000, guid: 7ecc6bf62c8ad3c4087159eb44c40d08, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed-limit-40kmh-roughness
+    second: {fileID: 2800000, guid: e599646c69b46164d9e7dee315ad632a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed-limit-50kmh-bump
+    second: {fileID: 2800000, guid: 650592791584814459b84feb5b70b0ad, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed-limit-50kmh-roughness
+    second: {fileID: 2800000, guid: c6e34de02ec1f78438829efa976594a3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed-limit-60kmh-bump
+    second: {fileID: 2800000, guid: 9ccdac14a5f621f43939abd8feef173f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed-limit-60kmh-roughness
+    second: {fileID: 2800000, guid: cef52b74762ddec449264005a4eb5740, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed-limit-70kmh-bump
+    second: {fileID: 2800000, guid: 8f3dfdb3eebf28b4b99a108455f43b42, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed-limit-70kmh-roughness
+    second: {fileID: 2800000, guid: 7c37f7027ff6d40459c5dc280d76cbf0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed-limit-80kmh-bump
+    second: {fileID: 2800000, guid: e949c31f79098f14eb04ab05a3d9f77c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Speed-limit-80kmh-roughness
+    second: {fileID: 2800000, guid: 04ffa94b7ea61d244a21328a7b03884f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Stop (thai english)
+    second: {fileID: 2800000, guid: 82be4ee277884804fbb684602efda794, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Stop (thai only)
+    second: {fileID: 2800000, guid: 0f1622d70cf9ab447b0352a05670825b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Stop-(thai-english)-bump
+    second: {fileID: 2800000, guid: 73977f912a31ebd4abc6ff0d3bc622bb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Stop-(thai-english)-roughness
+    second: {fileID: 2800000, guid: ccf7b34a68b41ab47829839549761996, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Stop-(thai-only)-bump
+    second: {fileID: 2800000, guid: 19a17292b989e3d40a6cd69c339f11bb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Stop-(thai-only)-roughness
+    second: {fileID: 2800000, guid: 5b07583fb1efd304d8dccfa7fa357c81, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Traffic light ahead
+    second: {fileID: 2800000, guid: f94484eb12eb1eb4489ce557940a1958, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Turn left or right
+    second: {fileID: 2800000, guid: 44d45ded9a0258e4aab44293ed4aee4a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Turn left_1
+    second: {fileID: 2800000, guid: d2cf1ef7feb70e042a0798d5200b5b29, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Turn right
+    second: {fileID: 2800000, guid: 9f7520ef1791ea84b98f2530a5d0edb5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Turn-left-bump
+    second: {fileID: 2800000, guid: ba281094b35dd8c44b1886c12c43240d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Turn-left-or-right-bump
+    second: {fileID: 2800000, guid: 13619007bfcf16d4b8b594a00e194b78, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Turn-left-or-right-roughness
+    second: {fileID: 2800000, guid: c7c6d8e9d14ed9d45a81e3f6582553f2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Turn-left-roughness
+    second: {fileID: 2800000, guid: 9d8ae934f493e1643837c955c5ea9bf5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Turn-right-bump
+    second: {fileID: 2800000, guid: 7399774ebdc11de4cb365ec78d3c1e78, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Turn-right-roughness
+    second: {fileID: 2800000, guid: 6e0f2abb646f7894ca00dbce5b096efe, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Waterfall
+    second: {fileID: 2800000, guid: 53ce1a0e6ac1d2b41a45c42cc36b22be, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Waterfall-bump
+    second: {fileID: 2800000, guid: 18b023c64b1fe124f916b92f0ea56751, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Waterfall-roughness
+    second: {fileID: 2800000, guid: 46451eef066f06d49a7cbf33732539e6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Zoo
+    second: {fileID: 2800000, guid: db420b3d0deb6854494fab5ced5c12df, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Zoo-bump
+    second: {fileID: 2800000, guid: 735ca36008e2bcf49a0a0e95840658df, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Zoo-roughness
+    second: {fileID: 2800000, guid: 8e4bc7559d7460e40ba12298ab11c1f7, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
