@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -56,6 +56,9 @@ namespace FCG
         [HideInInspector] public Transform myOldWay;
         [HideInInspector] public int myOldSideAtual = 0;
         [HideInInspector] public FCGWaypointsContainer myOldWayScript = null;
+        [HideInInspector] public bool forcedStop = false;
+
+        [HideInInspector] public float lateralOffset = 0f; // Để xe có thể tự động bẻ lái sang trái/phải
 
         private Vector3 _avanceNode = Vector3.zero;
         private float countTimeToSignal = 0;
@@ -259,7 +262,7 @@ namespace FCG
         void MoveCar()
         {
             if (status == StatusCar.bloked) return;
-
+            if (forcedStop) return;
             if (lightDirection)
             {
                 countTimeToSignal++;
@@ -288,6 +291,9 @@ namespace FCG
             else
                 relativeVector = transform.InverseTransformPoint(
                     atualWayScript.Node(sideAtual, currentNode, (currentNode == 0 && nodeSteerCarefully) ? 3 : 0));
+
+            // TÍNH NĂNG MỚI: Cộng thêm offset vào local X để xe lái dạt sang lề
+            relativeVector.x += lateralOffset;
 
             steer = ((relativeVector.x / relativeVector.magnitude) * carSetting.maxSteerAngle);
 
@@ -361,6 +367,27 @@ namespace FCG
 
             if (carSetting.carSteer)
                 carSetting.carSteer.localEulerAngles = new Vector3(steerCurAngle.x, steerCurAngle.y, steerCurAngle.z - steer);
+        }
+
+        public void ForceStop()
+        {
+            forcedStop = true;
+            status = StatusCar.bloked;
+            if (myRigidbody != null)
+            {
+                myRigidbody.linearVelocity = Vector3.zero;
+                myRigidbody.angularVelocity = Vector3.zero;
+            }
+            // Bật đèn thắng
+            if (BreakLight != null) BreakLight.SetActive(true);
+        }
+
+        // Gọi từ TrafficJamTrigger khi đường thông
+        public void ForceResume()
+        {
+            forcedStop = false;
+            status = StatusCar.transitingNormally;
+            if (BreakLight != null) BreakLight.SetActive(false);
         }
 
         // ================================================================
@@ -581,6 +608,28 @@ namespace FCG
         {
             int total = (sideAtual == 0) ? atualWayScript.nextWay0.Length : atualWayScript.nextWay1.Length;
             int t = Random.Range(0, total);
+
+            // --- TÍNH NĂNG MỚI: ĐIỀU HƯỚNG THEO ĐÍCH CỦA BLOCKING CAR ---
+            var blockingCar = GetComponent<BlockingCar>();
+            if (blockingCar != null && blockingCar.endPoint != null)
+            {
+                float closestDist = float.MaxValue;
+                int bestT = -1;
+                for (int i = 0; i < total; i++)
+                {
+                    if (CheckStoped(i)) continue;
+                    Vector3 pPos = GetNodeNextWay(i, 0); // Lấy nút đầu tiên của quãng đường kế tiếp để đo phương hướng
+                    float dist = Vector3.Distance(pPos, blockingCar.endPoint.position);
+                    if (dist < closestDist)
+                    {
+                        closestDist = dist;
+                        bestT = i;
+                    }
+                }
+                if (bestT != -1) t = bestT;
+            }
+            // -----------------------------------------------------------
+
             if (total > 1)
             {
                 if (CheckStoped(t) || VerifyTraffic(t, 30) < 30 || VerifyNodeSteerCarefully2(t))

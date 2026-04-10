@@ -1,4 +1,4 @@
-﻿
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,7 +42,7 @@ namespace FCG
             if (step == 0)
             {
 
-                if (countTime > 16) // How many seconds will the signal turn red or green
+                if (countTime > 16) // Khôi phục Đèn Xanh 16s như cũ
                 {
                     countTime = 0;
                     step = 1;
@@ -60,7 +60,7 @@ namespace FCG
             else if (step == 1)
             {
 
-                if (countTime >= 5)  //How many seconds will the signal turn yellow 
+                if (countTime >= 5)  // Khôi phục đèn vàng 5s như cũ
                 {
                     countTime = 0;
                     step = 2;
@@ -77,7 +77,7 @@ namespace FCG
             else if (step == 2)
             {
 
-                if (countTime >= 7) // How many seconds will it be open for pedestrians to cross the street?
+                if (countTime >= 1) // How many seconds will it be open for pedestrians to cross the street? (Khoảng nghỉ còn 1s)
                 {
                     countTime = 0;
                     step = 0;

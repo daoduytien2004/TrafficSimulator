@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -60,7 +60,7 @@ namespace FCG
             if (step == 0)
             {
 
-                if (countTime > 15)
+                if (countTime > 15) // Khôi phục Đèn Xanh 15s như cũ
                 {
                     countTime = 0;
                     step = 1;
@@ -78,7 +78,7 @@ namespace FCG
             else if (step == 1)
             {
 
-                if (countTime >= 3)
+                if (countTime >= 3) // Khôi phục Đèn Vàng 3s như cũ
                 {
                     countTime = 0;
                     step = 2;
@@ -95,7 +95,7 @@ namespace FCG
             else if (step == 2)
             {
 
-                if (countTime >= 7)
+                if (countTime >= 1) // Rút thời gian All-Red (cho người đi bộ đi qua) còn 1s
                 {
                     countTime = 0;
                     step = 0;

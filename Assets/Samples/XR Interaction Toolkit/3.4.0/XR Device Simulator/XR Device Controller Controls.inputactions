@@ -46,7 +46,7 @@
                     "name": "Primary Button",
                     "type": "Button",
                     "id": "54068f2e-4569-46ab-9864-63b23fb9c26a",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -423,11 +423,39 @@
                 {
                     "name": "",
                     "id": "ade35702-095e-4854-9708-dad5a61c1231",
-                    "path": "<Keyboard>/x",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Horn Button",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "New action map",
+            "id": "126aefdd-0aa8-4025-853d-89389793860f",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "6d16ebbc-68e4-4a59-acf8-6224a4f57800",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "94850832-1028-404f-9235-8d5cab32ed95",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
