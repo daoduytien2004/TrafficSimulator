@@ -1,0 +1,46 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEngine.UIElements.Editor">
+
+    <Style src="HornWarningHUD.uss" />
+
+    <!-- Vignette viền đỏ toàn màn hình -->
+    <ui:VisualElement name="VignetteOverlay" class="vignette hidden" />
+
+    <!-- HUD chính căn giữa trên -->
+    <ui:VisualElement name="HornHUDRoot" class="hud-root">
+
+        <!-- Card cảnh báo chính -->
+        <ui:VisualElement name="WarningIcon" class="warning-card hidden">
+
+            <!-- Icon tròn dấu ! -->
+            <ui:VisualElement name="WarnIconCircle" class="warn-icon-circle">
+                <ui:Label class="warn-icon-text" text="!" />
+            </ui:VisualElement>
+
+            <!-- Text: tiêu đề + mô tả -->
+            <ui:VisualElement class="warn-texts">
+                <ui:Label name="WarningCountText" class="warn-title" text="" />
+                <ui:Label name="WarnSubText" class="warn-sub" text="Khu dan cu dang ngu" />
+            </ui:VisualElement>
+
+            <!-- 3 chấm đếm -->
+            <ui:VisualElement class="dot-row">
+                <ui:VisualElement name="Dot1" class="dot" />
+                <ui:VisualElement name="Dot2" class="dot" />
+                <ui:VisualElement name="Dot3" class="dot" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+
+        <!-- Cooldown pill -->
+        <ui:VisualElement name="CooldownIndicator" class="cooldown-pill hidden">
+            <ui:Label class="cooldown-text" text="Vui long cho..." />
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+
+    <!-- Hint góc dưới giữa -->
+    <ui:VisualElement name="HornHint" class="horn-hint hidden">
+        <ui:Label class="horn-hint-text" text="Nhan H de bam coi" />
+    </ui:VisualElement>
+
+</ui:UXML>
