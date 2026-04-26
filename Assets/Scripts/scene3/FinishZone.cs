@@ -51,6 +51,9 @@ public class FinishZone : MonoBehaviour
         // Vì Time.timeScale = 0 nên phải dùng WaitForSecondsRealtime
         yield return new WaitForSecondsRealtime(restartDelay);
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        // --- ĐÃ SỬA MỚI: QUAY VỀ MENU CHÍNH ---
+        SceneManager.LoadScene("MainMenu");
+        // --------------------------------------
     }
 }

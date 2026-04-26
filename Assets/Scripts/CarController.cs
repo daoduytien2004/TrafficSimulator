@@ -19,6 +19,7 @@ public class VR_CarController : MonoBehaviour
     public TextMeshProUGUI speedDisplay; // Hiển thị "Vận tốc / Giới hạn"
     public Slider speedSlider; // Thanh kim đồng hồ/thanh trượt vận tốc
     public GameObject tutorialPanel;
+    public GameObject wrongWayPanel;
     public GameObject accidentPanel;
     public GameObject speedingFailPanel; // Panel hiện ra khi bị phạt tốc độ
     public GameObject crosswalkFailPanel; // Panel hiện ra khi đè vạch người đi bộ
@@ -216,6 +217,39 @@ public class VR_CarController : MonoBehaviour
     }
 
     // --- HÀM XỬ LÝ NHẤP NHÁY XI-NHAN ---
+
+    private void TriggerSpeedingFailure()
+    {
+        if (isCrashed) return;
+        isCrashed = true;
+
+        // Bật panel phạt tốc độ (nếu chưa gán thì bật tạm panel tai nạn)
+        if (speedingFailPanel != null) speedingFailPanel.SetActive(true);
+        else if (accidentPanel != null) accidentPanel.SetActive(true);
+
+        if (gasAudio != null) gasAudio.Stop();
+        if (brakeAudio != null) brakeAudio.Stop();
+        if (engineAudio != null) engineAudio.Stop();
+
+        Time.timeScale = 0f;
+        StartCoroutine(ResetGameRoutine());
+    }
+
+    public void TriggerCrosswalkFailure()
+    {
+        if (isCrashed) return;
+        isCrashed = true;
+
+        if (crosswalkFailPanel != null) crosswalkFailPanel.SetActive(true);
+        else if (accidentPanel != null) accidentPanel.SetActive(true);
+
+        if (gasAudio != null) gasAudio.Stop();
+        if (brakeAudio != null) brakeAudio.Stop();
+        if (engineAudio != null) engineAudio.Stop();
+
+        Time.timeScale = 0f;
+        StartCoroutine(ResetGameRoutine());
+    }
     void HandleTurnSignals()
     {
         // Nếu có bật 1 trong 2 bên
@@ -292,39 +326,6 @@ public class VR_CarController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    private void TriggerSpeedingFailure()
-    {
-        if (isCrashed) return;
-        isCrashed = true;
-
-        // Bật panel phạt tốc độ (nếu chưa gán thì bật tạm panel tai nạn)
-        if (speedingFailPanel != null) speedingFailPanel.SetActive(true);
-        else if (accidentPanel != null) accidentPanel.SetActive(true);
-
-        if (gasAudio != null) gasAudio.Stop();
-        if (brakeAudio != null) brakeAudio.Stop();
-        if (engineAudio != null) engineAudio.Stop();
-        
-        Time.timeScale = 0f;
-        StartCoroutine(ResetGameRoutine());
-    }
-
-    public void TriggerCrosswalkFailure()
-    {
-        if (isCrashed) return;
-        isCrashed = true;
-
-        if (crosswalkFailPanel != null) crosswalkFailPanel.SetActive(true);
-        else if (accidentPanel != null) accidentPanel.SetActive(true);
-
-        if (gasAudio != null) gasAudio.Stop();
-        if (brakeAudio != null) brakeAudio.Stop();
-        if (engineAudio != null) engineAudio.Stop();
-        
-        Time.timeScale = 0f;
-        StartCoroutine(ResetGameRoutine());
-    }
-
     public void SetGearN() { currentGear = "N"; UpdateGearDisplay(); }
     public void SetGearD() { currentGear = "D"; UpdateGearDisplay(); if (tutorialPanel != null) tutorialPanel.SetActive(false); }
     public void SetGearR() { currentGear = "R"; UpdateGearDisplay(); if (tutorialPanel != null) tutorialPanel.SetActive(false); }
@@ -338,5 +339,25 @@ public class VR_CarController : MonoBehaviour
             else if (currentGear == "R") gearDisplay.color = Color.red;
             else gearDisplay.color = Color.white;
         }
+    }
+
+    // HÀM GỌI KHI ĐI SAI ĐƯỜNG
+    public void TriggerWrongWay()
+    {
+        if (isCrashed) return; // Nếu đang bị tai nạn rồi thì thôi không báo sai đường nữa
+
+        isCrashed = true; // Khóa điều khiển xe lại
+
+        // Hiện bảng báo sai đường
+        if (wrongWayPanel != null) wrongWayPanel.SetActive(true);
+
+        // Tắt hết âm thanh động cơ
+        if (gasAudio != null) gasAudio.Stop();
+        if (brakeAudio != null) brakeAudio.Stop();
+        if (engineAudio != null) engineAudio.Stop();
+
+        // Dừng thời gian và khởi động lại game
+        Time.timeScale = 0f;
+        StartCoroutine(ResetGameRoutine());
     }
 }
