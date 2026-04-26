@@ -42,7 +42,7 @@ public class FinishZone : MonoBehaviour
         // 4. Dừng thời gian (Đóng băng game)
         Time.timeScale = 0f;
 
-        // 5. Đợi một lát rồi quay lại màn hình chính
+        // 5. Đợi một lát rồi quay lại màn hình chính hoặc chơi lại
         StartCoroutine(RestartAfterVictory());
     }
 

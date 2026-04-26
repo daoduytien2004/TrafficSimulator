@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
+using UnityEngine.SceneManagement; // Thư viện để load lại map
 
 public class TurnScenario : MonoBehaviour
 {
+    // BÌNH MỚI: Thêm lựa chọn "Finish" vào danh sách
     public enum TurnType { Left, Right, Straight, Finish }
     public TurnType turnDirection;
 
@@ -12,18 +13,12 @@ public class TurnScenario : MonoBehaviour
 
     [Header("Xe máy trừng phạt / Giao thông")]
     public GameObject motoPrefab;
-
-    [Tooltip("Khoảng cách xuất hiện phía sau ô tô. Nếu đoạn đường trước ngã tư bị ngắn/cong, hãy GIẢM số này xuống (VD: 15)")]
     public float spawnDistance = 25f;
     public float groundOffset = 0f;
 
-    // --- BÌNH MỚI: Biến chỉnh độ rộng làn đường ---
-    [Tooltip("Khoảng cách lệch sang ngang. Nếu xe máy chui từ tường ra do đường hẹp, hãy GIẢM số này xuống (VD: 2 hoặc 2.5)")]
-    public float laneWidthOffset = 3f;
-
     [Header("Cài đặt Đích đến (Chỉ dùng khi chọn Finish)")]
-    public GameObject victoryPanel;
-    public float restartDelay = 5f;
+    public GameObject victoryPanel;   // Kéo bảng chúc mừng vào đây
+    public float restartDelay = 5f;  // Thời gian đợi trước khi chơi lại
 
     private VR_CarController playerCar;
     private PunishmentMoto spawnedMoto;
@@ -33,7 +28,6 @@ public class TurnScenario : MonoBehaviour
 
     private Vector3 initialCarForward;
     private Vector3 initialLaneForward;
-    private Vector3 initialLaneRight; // Lưu hướng ngang của mặt đường
 
     void OnTriggerEnter(Collider other)
     {
@@ -42,20 +36,19 @@ public class TurnScenario : MonoBehaviour
             playerCar = other.GetComponent<VR_CarController>();
             playerInZone = true;
 
+            // NẾU LÀ ĐÍCH ĐẾN: Chạy kịch bản chiến thắng và kết thúc luôn tại đây
             if (turnDirection == TurnType.Finish)
             {
                 StartCoroutine(HandleVictory());
-                return;
+                return; // Lệnh này giúp bỏ qua toàn bộ phần code rẽ/xe máy ở bên dưới
             }
 
+            // --- KỊCH BẢN BÌNH THƯỜNG (Rẽ hoặc Đi thẳng) ---
             hasPassed = (turnDirection == TurnType.Straight);
             hasDoneSafetyCheck = false;
 
             initialCarForward = playerCar.transform.forward;
-
-            // Lấy chuẩn hướng của MẶT ĐƯỜNG (Khối Cube tàng hình), không lấy hướng của ô tô nữa
             initialLaneForward = transform.forward;
-            initialLaneRight = transform.right;
 
             if (turnIndicator != null) turnIndicator.SetActive(true);
 
@@ -68,17 +61,25 @@ public class TurnScenario : MonoBehaviour
         }
     }
 
+    // KỊCH BẢN CHIẾN THẮNG
     IEnumerator HandleVictory()
     {
+        Debug.Log("Chúc mừng! Đã về đích.");
+
+        // Bật bảng chúc mừng
         if (victoryPanel != null) victoryPanel.SetActive(true);
 
+        // Dọn dẹp: Xóa sạch xe máy đang có trên đường để không ai tông mình lúc đang ăn mừng
         PunishmentMoto[] allMotos = FindObjectsOfType<PunishmentMoto>();
         foreach (PunishmentMoto moto in allMotos)
         {
             Destroy(moto.gameObject);
         }
 
+        // Đóng băng trò chơi
         Time.timeScale = 0f;
+
+        // Đợi vài giây rồi reset lại bàn chơi
         yield return new WaitForSecondsRealtime(restartDelay);
 
         Time.timeScale = 1f;
@@ -88,13 +89,11 @@ public class TurnScenario : MonoBehaviour
     void SpawnMoto()
     {
         float sideOffset = 0f;
-        // Dùng biến laneWidthOffset thay vì số 4 cứng ngắc
-        if (turnDirection == TurnType.Left) sideOffset = -laneWidthOffset;
-        else if (turnDirection == TurnType.Right) sideOffset = laneWidthOffset;
-        else sideOffset = (Random.value > 0.5f) ? laneWidthOffset : -laneWidthOffset;
+        if (turnDirection == TurnType.Left) sideOffset = -4f;
+        else if (turnDirection == TurnType.Right) sideOffset = 4f;
+        else sideOffset = (Random.value > 0.5f) ? 4f : -4f;
 
-        // DÙNG initialLaneRight: Đảm bảo xe máy luôn xuất hiện thẳng tắp trên đường, bất chấp ô tô đi ngoằn ngoèo
-        Vector3 spawnPos = playerCar.transform.position - initialLaneForward * spawnDistance + initialLaneRight * sideOffset;
+        Vector3 spawnPos = playerCar.transform.position - initialLaneForward * spawnDistance + playerCar.transform.right * sideOffset;
 
         Vector3 rayStart = spawnPos + Vector3.up * 5f;
         RaycastHit hit;
@@ -111,6 +110,7 @@ public class TurnScenario : MonoBehaviour
 
     void Update()
     {
+        // Bỏ qua update nếu là đích đến
         if (turnDirection == TurnType.Finish) return;
 
         if (playerInZone && playerCar != null && spawnedMoto != null && turnDirection != TurnType.Straight)
@@ -144,6 +144,7 @@ public class TurnScenario : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
+        // Bỏ qua nếu là đích đến
         if (turnDirection == TurnType.Finish) return;
 
         if (other.CompareTag("Player") && playerInZone)
