@@ -61,18 +61,12 @@ public class GameOverManager : MonoBehaviour
         // Điền nội dung
         int totalAffected = hornCount * peopleAffectedPerHorn;
 
-        if (titleText != null)
-            titleText.text = "Ban da lam phien ca khu pho!";
-
         if (statsText != null)
             statsText.text = $"Ban da bam coi {hornCount} lan\n"
                            + $"Uoc tinh {totalAffected} nguoi bi danh thuc\n"
                            + $"Tieng coi xe ban dem co the dat 100 dB\n"
                            + $"— tuong duong tieng khoan tuong!";
 
-        if (messageText != null)
-            messageText.text = "Hay ton trong giac ngu cua hang xom.\n"
-                             + "Mot cuoc goi ngan hon la giai phap tot hon.";
 
         // Fade in panel
         if (canvasGroup != null)

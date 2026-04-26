@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
 using System.Collections;
@@ -15,9 +16,16 @@ public class VR_CarController : MonoBehaviour
 
     [Header("Gắn UI Hướng dẫn, Taplo & Tai Nạn")]
     public TextMeshProUGUI gearDisplay;
+    public TextMeshProUGUI speedDisplay; // Hiển thị "Vận tốc / Giới hạn"
+    public Slider speedSlider; // Thanh kim đồng hồ/thanh trượt vận tốc
     public GameObject tutorialPanel;
     public GameObject accidentPanel;
+    public GameObject speedingFailPanel; // Panel hiện ra khi bị phạt tốc độ
+    public GameObject crosswalkFailPanel; // Panel hiện ra khi đè vạch người đi bộ
     public float resetDelay = 3f;
+
+    [Header("Tốc độ Giới hạn")]
+    public float currentSpeedLimit = 0f; // 0 nghĩa là chưa đi qua vùng giới hạn nào
 
     [Header("Gắn nút trên tay cầm VR")]
     public InputActionReference buttonD;
@@ -148,6 +156,46 @@ public class VR_CarController : MonoBehaviour
 
         currentSpeed = Mathf.Clamp(currentSpeed, 0f, maxSpeed);
 
+        // --- CẬP NHẬT THANH SLIDER ĐỒNG HỒ ---
+        if (speedSlider != null)
+        {
+            speedSlider.maxValue = maxSpeed;
+            speedSlider.value = currentSpeed;
+        }
+
+        // --- CẬP NHẬT HIỂN THỊ TỐC ĐỘ / GIỚI HẠN ---
+        if (speedDisplay != null)
+        {
+            int displaySpeedKmH = Mathf.RoundToInt(currentSpeed);
+            
+            if (currentSpeedLimit > 0)
+            {
+                // Đã vào vùng giới hạn tốc độ
+                speedDisplay.text = $"{displaySpeedKmH} / {Mathf.RoundToInt(currentSpeedLimit)} km/h";
+
+                // Thất bại nếu vượt 5km/h
+                if (displaySpeedKmH >= currentSpeedLimit + 5)
+                {
+                    TriggerSpeedingFailure();
+                }
+                // Đổi màu đỏ nếu vượt tốc độ nhưng chưa tới 5km/h
+                else if (displaySpeedKmH > currentSpeedLimit)
+                {
+                    speedDisplay.color = Color.red;
+                }
+                else
+                {
+                    speedDisplay.color = Color.white;
+                }
+            }
+            else
+            {
+                // Chưa có giới hạn, chỉ hiển thị vận tốc hiện tại
+                speedDisplay.text = $"{displaySpeedKmH} km/h";
+                speedDisplay.color = Color.white;
+            }
+        }
+
         if (currentGear != "N")
         {
             float moveDirection = (currentGear == "D") ? 1f : -1f;
@@ -242,6 +290,39 @@ public class VR_CarController : MonoBehaviour
         yield return new WaitForSecondsRealtime(resetDelay);
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void TriggerSpeedingFailure()
+    {
+        if (isCrashed) return;
+        isCrashed = true;
+
+        // Bật panel phạt tốc độ (nếu chưa gán thì bật tạm panel tai nạn)
+        if (speedingFailPanel != null) speedingFailPanel.SetActive(true);
+        else if (accidentPanel != null) accidentPanel.SetActive(true);
+
+        if (gasAudio != null) gasAudio.Stop();
+        if (brakeAudio != null) brakeAudio.Stop();
+        if (engineAudio != null) engineAudio.Stop();
+        
+        Time.timeScale = 0f;
+        StartCoroutine(ResetGameRoutine());
+    }
+
+    public void TriggerCrosswalkFailure()
+    {
+        if (isCrashed) return;
+        isCrashed = true;
+
+        if (crosswalkFailPanel != null) crosswalkFailPanel.SetActive(true);
+        else if (accidentPanel != null) accidentPanel.SetActive(true);
+
+        if (gasAudio != null) gasAudio.Stop();
+        if (brakeAudio != null) brakeAudio.Stop();
+        if (engineAudio != null) engineAudio.Stop();
+        
+        Time.timeScale = 0f;
+        StartCoroutine(ResetGameRoutine());
     }
 
     public void SetGearN() { currentGear = "N"; UpdateGearDisplay(); }
