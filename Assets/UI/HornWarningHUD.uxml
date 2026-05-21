@@ -38,6 +38,11 @@
 
     </ui:VisualElement>
 
+    <!-- Zone hint: hiện khi vào khu vực kẹt xe, tự ẩn sau vài giây -->
+    <ui:VisualElement name="ZoneHint" class="zone-hint hidden">
+        <ui:Label name="ZoneHintLabel" class="zone-hint-text" text="" />
+    </ui:VisualElement>
+
     <!-- Hint góc dưới giữa -->
     <ui:VisualElement name="HornHint" class="horn-hint hidden">
         <ui:Label class="horn-hint-text" text="Nhan H de bam coi" />

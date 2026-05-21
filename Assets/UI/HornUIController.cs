@@ -17,6 +17,8 @@ public class HornUIController : MonoBehaviour
     private VisualElement vignetteOverlay;
     private VisualElement cooldownPill;
     private VisualElement hornHint;
+    private VisualElement zoneHint;
+    private Label zoneHintLabel;
     private VisualElement dot1, dot2, dot3;
 
     private Coroutine blinkRoutine;
@@ -39,6 +41,8 @@ public class HornUIController : MonoBehaviour
         vignetteOverlay = root.Q<VisualElement>("VignetteOverlay");
         cooldownPill   = root.Q<VisualElement>("CooldownIndicator");
         hornHint       = root.Q<VisualElement>("HornHint");
+        zoneHint       = root.Q<VisualElement>("ZoneHint");
+        zoneHintLabel  = root.Q<Label>("ZoneHintLabel");
         dot1 = root.Q<VisualElement>("Dot1");
         dot2 = root.Q<VisualElement>("Dot2");
         dot3 = root.Q<VisualElement>("Dot3");
@@ -107,6 +111,23 @@ public class HornUIController : MonoBehaviour
         }
     }
 
+    /// <summary>Hiện banner "Khu dân cư — hạn chế còi xe" khi vào zone, tự ẩn sau duration giây</summary>
+    public void ShowZoneHint(string message, float duration = 3f)
+    {
+        if (zoneHint == null) return;
+        if (zoneHintLabel != null) zoneHintLabel.text = message;
+        zoneHint.RemoveFromClassList("hidden");
+        zoneHint.AddToClassList("visible");
+        StartCoroutine(HideZoneHintAfter(duration));
+    }
+
+    private IEnumerator HideZoneHintAfter(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        zoneHint?.RemoveFromClassList("visible");
+        zoneHint?.AddToClassList("hidden");
+    }
+
     /// <summary>Hiện hint "Nhấn H để bấm còi" khi vào zone</summary>
     public void ShowHornHint(bool show)
     {
@@ -139,6 +160,9 @@ public class HornUIController : MonoBehaviour
 
         hornHint?.AddToClassList("hidden");
         hornHint?.RemoveFromClassList("visible");
+
+        zoneHint?.AddToClassList("hidden");
+        zoneHint?.RemoveFromClassList("visible");
 
         if (warningTitle != null) warningTitle.text = "";
         ResetDots();

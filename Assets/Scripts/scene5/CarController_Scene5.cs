@@ -221,22 +221,22 @@ public class VR_CarController_Scene5 : MonoBehaviour
             float speedRatio = currentSpeed / maxSpeed;
             engineAudio.pitch = Mathf.Lerp(minPitch, maxPitch, speedRatio);
         }
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.F6))
         {
             EnterJamZone();
             Debug.Log("[TEST] Vào jam zone");
         }
-        if (Input.GetKeyDown(KeyCode.Y))
+        if (Input.GetKeyDown(KeyCode.F7))
         {
             TryHorn();
             Debug.Log("[TEST] Bấm còi");
         }
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.F8))
         {
             ExitJamZone();
             Debug.Log("[TEST] Thoát jam zone");
         }
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.F9))
         {
             hornWarningCount = 0;
             hornLocked = false;
@@ -258,6 +258,7 @@ public class VR_CarController_Scene5 : MonoBehaviour
         hornWarningCount = 0;
         ResetHornUI();
         ShowHornButton(true);
+        hornUI?.ShowZoneHint("Khu dân cư — hạn chế còi xe", 3f);
         hornUI?.ShowHornHint(true);
         Debug.Log("[HornSystem] Đã vào zone kẹt xe.");
     }
