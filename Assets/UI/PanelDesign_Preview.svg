@@ -1,0 +1,194 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <!-- Nền tổng -->
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#0d0d1a"/>
+    </radialGradient>
+
+    <!-- Gradient panel chính -->
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e2a3a" stop-opacity="0.97"/>
+      <stop offset="100%" stop-color="#0f1720" stop-opacity="0.97"/>
+    </linearGradient>
+
+    <!-- Gradient icon circle -->
+    <radialGradient id="iconGrad" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#ff6b35"/>
+      <stop offset="100%" stop-color="#c0392b"/>
+    </radialGradient>
+
+    <!-- Gradient đường viền trên -->
+    <linearGradient id="topBorder" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff4444" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#ff4444"/>
+      <stop offset="70%" stop-color="#ff4444"/>
+      <stop offset="100%" stop-color="#ff4444" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Gradient nút -->
+    <linearGradient id="btnGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e74c3c"/>
+      <stop offset="100%" stop-color="#922b21"/>
+    </linearGradient>
+
+    <!-- Glow đỏ -->
+    <filter id="redGlow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Glow trắng nhẹ -->
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Shadow panel -->
+    <filter id="panelShadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="20" flood-color="#ff0000" flood-opacity="0.15"/>
+    </filter>
+
+    <clipPath id="panelClip">
+      <rect x="150" y="60" width="600" height="500" rx="20"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="620" fill="url(#bgGrad)"/>
+
+  <!-- Grid lines trang trí -->
+  <g opacity="0.04" stroke="#ffffff" stroke-width="1">
+    <line x1="0" y1="100" x2="900" y2="100"/>
+    <line x1="0" y1="200" x2="900" y2="200"/>
+    <line x1="0" y1="300" x2="900" y2="300"/>
+    <line x1="0" y1="400" x2="900" y2="400"/>
+    <line x1="0" y1="500" x2="900" y2="500"/>
+    <line x1="150" y1="0" x2="150" y2="620"/>
+    <line x1="300" y1="0" x2="300" y2="620"/>
+    <line x1="450" y1="0" x2="450" y2="620"/>
+    <line x1="600" y1="0" x2="600" y2="620"/>
+    <line x1="750" y1="0" x2="750" y2="620"/>
+  </g>
+
+  <!-- ═══ PANEL CHÍNH ═══ -->
+  <rect x="150" y="60" width="600" height="500" rx="20"
+        fill="url(#panelGrad)" filter="url(#panelShadow)"/>
+
+  <!-- Viền đỏ trên cùng -->
+  <rect x="150" y="60" width="600" height="4" rx="2" fill="url(#topBorder)"/>
+
+  <!-- Viền ngoài mỏng -->
+  <rect x="150" y="60" width="600" height="500" rx="20"
+        fill="none" stroke="#ff4444" stroke-width="1" stroke-opacity="0.3"/>
+
+  <!-- ═══ ICON XE CẤP CỨU ═══ -->
+  <!-- Vòng tròn nền glow -->
+  <circle cx="450" cy="168" r="58" fill="#ff2200" opacity="0.12" filter="url(#redGlow)"/>
+  <circle cx="450" cy="168" r="48" fill="url(#iconGrad)" filter="url(#redGlow)"/>
+  <circle cx="450" cy="168" r="48" fill="none" stroke="#ff6b35" stroke-width="2" opacity="0.6"/>
+
+  <!-- Icon xe cứu thương (SVG path đơn giản) -->
+  <!-- Thân xe -->
+  <rect x="420" y="158" width="60" height="28" rx="4" fill="white"/>
+  <!-- Cabin xe -->
+  <rect x="425" y="150" width="30" height="18" rx="3" fill="white"/>
+  <!-- Đèn đỏ trên nóc -->
+  <rect x="438" y="144" width="24" height="8" rx="2" fill="#ff2222"/>
+  <!-- Chữ thập -->
+  <rect x="442" y="162" width="16" height="4" rx="1" fill="#e74c3c"/>
+  <rect x="448" y="156" width="4" height="16" rx="1" fill="#e74c3c"/>
+  <!-- Bánh xe -->
+  <circle cx="432" cy="189" r="6" fill="#1a1a2e" stroke="white" stroke-width="2"/>
+  <circle cx="468" cy="189" r="6" fill="#1a1a2e" stroke="white" stroke-width="2"/>
+
+  <!-- Sóng âm thanh (còi xe) -->
+  <g fill="none" stroke="#ff8c42" stroke-width="2" opacity="0.8" filter="url(#softGlow)">
+    <path d="M 395 155 Q 383 168 395 181"/>
+    <path d="M 386 148 Q 368 168 386 188"/>
+    <path d="M 505 155 Q 517 168 505 181"/>
+    <path d="M 514 148 Q 532 168 514 188"/>
+  </g>
+
+  <!-- ═══ TIÊU ĐỀ ═══ -->
+  <text x="450" y="248" text-anchor="middle"
+        fill="#ff4444" font-size="22" font-weight="700"
+        letter-spacing="3" filter="url(#redGlow)">XE CẤP CỨU PHÍA SAU!</text>
+
+  <!-- Đường kẻ phân cách -->
+  <line x1="230" y1="262" x2="670" y2="262" stroke="#ff4444" stroke-width="1" opacity="0.25"/>
+
+  <!-- ═══ CÁC MỤC HƯỚNG DẪN ═══ -->
+
+  <!-- Mục 1 -->
+  <!-- Icon mũi tên -->
+  <circle cx="220" cy="300" r="14" fill="#1e4a6e" stroke="#3498db" stroke-width="1.5"/>
+  <text x="220" y="305" text-anchor="middle" fill="#3498db" font-size="14" font-weight="bold">→</text>
+  <rect x="245" y="286" width="390" height="30" rx="6" fill="#1a2f44" opacity="0.6"/>
+  <text x="262" y="306" fill="#ecf0f1" font-size="15" font-weight="600">Lách nhẹ sang</text>
+  <text x="400" y="306" fill="#3498db" font-size="15" font-weight="700"> PHẢI </text>
+  <text x="440" y="306" fill="#ecf0f1" font-size="15" font-weight="600">hoặc</text>
+  <text x="482" y="306" fill="#3498db" font-size="15" font-weight="700"> TRÁI</text>
+
+  <!-- Mục 2 -->
+  <circle cx="220" cy="350" r="14" fill="#4a1e1e" stroke="#e74c3c" stroke-width="1.5"/>
+  <text x="220" y="355" text-anchor="middle" fill="#e74c3c" font-size="14" font-weight="bold">✕</text>
+  <rect x="245" y="336" width="390" height="30" rx="6" fill="#2a1a1a" opacity="0.6"/>
+  <text x="262" y="356" fill="#ecf0f1" font-size="15" font-weight="600">Không vượt qua</text>
+  <text x="410" y="356" fill="#ff6b6b" font-size="15" font-weight="700"> ngã tư</text>
+
+  <!-- Mục 3 -->
+  <circle cx="220" cy="400" r="14" fill="#1e3d1e" stroke="#2ecc71" stroke-width="1.5"/>
+  <text x="220" y="405" text-anchor="middle" fill="#2ecc71" font-size="13" font-weight="bold">◉</text>
+  <rect x="245" y="386" width="390" height="30" rx="6" fill="#1a2a1a" opacity="0.6"/>
+  <text x="262" y="406" fill="#ecf0f1" font-size="15" font-weight="600">Nhìn</text>
+  <text x="303" y="406" fill="#2ecc71" font-size="15" font-weight="700"> gương chiếu hậu</text>
+  <text x="480" y="406" fill="#ecf0f1" font-size="15" font-weight="600"> tìm chỗ trống</text>
+
+  <!-- Mục 4 -->
+  <circle cx="220" cy="450" r="14" fill="#3d3d1e" stroke="#f39c12" stroke-width="1.5"/>
+  <text x="220" y="455" text-anchor="middle" fill="#f39c12" font-size="13" font-weight="bold">⏱</text>
+  <rect x="245" y="436" width="390" height="30" rx="6" fill="#2a2a1a" opacity="0.6"/>
+  <text x="262" y="456" fill="#ecf0f1" font-size="15" font-weight="600">Quan sát thời gian đèn đỏ và</text>
+  <text x="262" y="456" fill="#f39c12" font-size="15" font-weight="700" dx="296"> hãy bình tĩnh</text>
+
+  <!-- ═══ ĐIỀU 27 NỔI BẬT ═══ -->
+  <rect x="200" y="468" width="500" height="60" rx="10"
+        fill="#1a0505" stroke="#ff4444" stroke-width="1.5" stroke-opacity="0.5"/>
+  <text x="450" y="487" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="600" opacity="0.8">CƠ SỞ PHÁP LÝ — LUẬT 36/2024/QH15</text>
+  <text x="310" y="511" fill="#ffffff" font-size="22" font-weight="900" letter-spacing="2"
+        filter="url(#redGlow)">ĐIỀU 27</text>
+  <text x="400" y="511" fill="#bdc3c7" font-size="14"> — Xe ưu tiên (xe cứu thương)</text>
+
+  <!-- ═══ NÚT SẴN SÀNG ═══ -->
+  <rect x="200" y="534" width="500" height="42" rx="10"
+        fill="#0a1a0a" stroke="#2ecc71" stroke-width="2" stroke-opacity="0.8"/>
+  <!-- Viền nhấp nháy hiệu ứng -->
+  <rect x="200" y="534" width="500" height="42" rx="10"
+        fill="none" stroke="#2ecc71" stroke-width="1" stroke-opacity="0.3" stroke-dasharray="8,6"/>
+  <!-- Ký hiệu phím 1 -->
+  <rect x="218" y="542" width="28" height="26" rx="5"
+        fill="#1a2e1a" stroke="#2ecc71" stroke-width="2"/>
+  <text x="232" y="560" text-anchor="middle"
+        fill="#2ecc71" font-size="15" font-weight="900">1</text>
+  <!-- Text hướng dẫn -->
+  <text x="390" y="557" text-anchor="middle"
+        fill="#ffffff" font-size="14" font-weight="700" letter-spacing="1">Bấm 1 khi sẵn sàng bắt đầu</text>
+  <!-- Mũi tên -->
+  <text x="648" y="559" text-anchor="middle" fill="#2ecc71" font-size="18">▶</text>
+
+  <!-- ═══ LABEL GÓC TRÊN ═══ -->
+  <rect x="330" y="68" width="240" height="26" rx="13"
+        fill="#c0392b" opacity="0.9"/>
+  <text x="450" y="86" text-anchor="middle"
+        fill="white" font-size="12" font-weight="700" letter-spacing="1">TÌNH HUỐNG KHẨN CẤP</text>
+
+  <!-- Nhãn góc trái -->
+  <rect x="158" y="68" width="90" height="26" rx="5" fill="#ff4444" opacity="0.15"/>
+  <text x="203" y="85" text-anchor="middle"
+        fill="#ff4444" font-size="14" font-weight="700" letter-spacing="1">SCENE 06</text>
+
+  <!-- ═══ CHÚ THÍCH BÊN DƯỚI ═══ -->
+  <text x="450" y="590" text-anchor="middle"
+        fill="#4a5568" font-size="12">VR Smart Traffic Instructor — Scene 6 Tutorial Panel</text>
+</svg>

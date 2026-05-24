@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#0d0d1a"/>
+    </radialGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e2d1e" stop-opacity="0.97"/>
+      <stop offset="100%" stop-color="#0f1a0f" stop-opacity="0.97"/>
+    </linearGradient>
+    <radialGradient id="iconGrad" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#f39c12"/>
+      <stop offset="100%" stop-color="#d68910"/>
+    </radialGradient>
+    <linearGradient id="topBorder" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f39c12" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#f39c12"/>
+      <stop offset="70%" stop-color="#f39c12"/>
+      <stop offset="100%" stop-color="#f39c12" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="yellowGlow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="panelShadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="20" flood-color="#f39c12" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="640" fill="url(#bgGrad)"/>
+
+  <!-- Grid trang trí -->
+  <g opacity="0.04" stroke="#ffffff" stroke-width="1">
+    <line x1="0" y1="100" x2="900" y2="100"/><line x1="0" y1="200" x2="900" y2="200"/>
+    <line x1="0" y1="300" x2="900" y2="300"/><line x1="0" y1="400" x2="900" y2="400"/>
+    <line x1="0" y1="500" x2="900" y2="500"/>
+    <line x1="150" y1="0" x2="150" y2="640"/><line x1="300" y1="0" x2="300" y2="640"/>
+    <line x1="450" y1="0" x2="450" y2="640"/><line x1="600" y1="0" x2="600" y2="640"/>
+    <line x1="750" y1="0" x2="750" y2="640"/>
+  </g>
+
+  <!-- Panel chính -->
+  <rect x="150" y="55" width="600" height="530" rx="20" fill="url(#panelGrad)" filter="url(#panelShadow)"/>
+  <rect x="150" y="55" width="600" height="4" rx="2" fill="url(#topBorder)"/>
+  <rect x="150" y="55" width="600" height="530" rx="20" fill="none" stroke="#f39c12" stroke-width="1" stroke-opacity="0.3"/>
+
+  <!-- Label góc trên -->
+  <rect x="330" y="63" width="240" height="26" rx="13" fill="#d68910" opacity="0.9"/>
+  <text x="450" y="81" text-anchor="middle" fill="white" font-size="12" font-weight="700" letter-spacing="1">TÌNH HUỐNG KẸT XE</text>
+  <rect x="158" y="63" width="90" height="26" rx="5" fill="#f39c12" opacity="0.15"/>
+  <text x="203" y="80" text-anchor="middle" fill="#f39c12" font-size="14" font-weight="700" letter-spacing="1">SCENE 05</text>
+
+  <!-- Icon còi xe -->
+  <circle cx="450" cy="163" r="58" fill="#f39c12" opacity="0.1" filter="url(#yellowGlow)"/>
+  <circle cx="450" cy="163" r="48" fill="url(#iconGrad)" filter="url(#yellowGlow)"/>
+  <circle cx="450" cy="163" r="48" fill="none" stroke="#f39c12" stroke-width="2" opacity="0.6"/>
+  <!-- Icon vô lăng -->
+  <circle cx="450" cy="163" r="20" fill="none" stroke="white" stroke-width="3"/>
+  <circle cx="450" cy="163" r="5" fill="white"/>
+  <line x1="450" y1="143" x2="450" y2="158" stroke="white" stroke-width="3"/>
+  <line x1="450" y1="168" x2="450" y2="183" stroke="white" stroke-width="3"/>
+  <line x1="430" y1="163" x2="445" y2="163" stroke="white" stroke-width="3"/>
+  <line x1="455" y1="163" x2="470" y2="163" stroke="white" stroke-width="3"/>
+  <!-- Sóng âm (còi) -->
+  <g fill="none" stroke="#f39c12" stroke-width="2" opacity="0.8" filter="url(#softGlow)">
+    <path d="M 395 150 Q 383 163 395 176"/>
+    <path d="M 386 143 Q 368 163 386 183"/>
+    <path d="M 505 150 Q 517 163 505 176"/>
+    <path d="M 514 143 Q 532 163 514 183"/>
+  </g>
+
+  <!-- Tiêu đề -->
+  <text x="450" y="243" text-anchor="middle" fill="#f39c12" font-size="21" font-weight="700" letter-spacing="3" filter="url(#yellowGlow)">KẸT XE — SỬ DỤNG CÒI ĐÚNG CÁCH</text>
+  <line x1="230" y1="257" x2="670" y2="257" stroke="#f39c12" stroke-width="1" opacity="0.25"/>
+
+  <!-- Mục 1 -->
+  <circle cx="220" cy="295" r="14" fill="#4a3a1e" stroke="#f39c12" stroke-width="1.5"/>
+  <text x="220" y="300" text-anchor="middle" fill="#f39c12" font-size="13" font-weight="bold">!</text>
+  <rect x="245" y="281" width="390" height="30" rx="6" fill="#2a2010" opacity="0.6"/>
+  <text x="262" y="301" fill="#ecf0f1" font-size="14" font-weight="600">Xe phía trước</text>
+  <text x="383" y="301" fill="#f39c12" font-size="14" font-weight="700"> đang chặn đường</text>
+  <text x="530" y="301" fill="#ecf0f1" font-size="14" font-weight="600"> của bạn</text>
+
+  <!-- Mục 2 -->
+  <circle cx="220" cy="340" r="14" fill="#1e3d1e" stroke="#2ecc71" stroke-width="1.5"/>
+  <text x="220" y="345" text-anchor="middle" fill="#2ecc71" font-size="13" font-weight="bold">✓</text>
+  <rect x="245" y="326" width="390" height="30" rx="6" fill="#1a2a1a" opacity="0.6"/>
+  <text x="262" y="346" fill="#ecf0f1" font-size="14" font-weight="600">Bấm</text>
+  <text x="295" y="346" fill="#2ecc71" font-size="14" font-weight="700"> CÒI MỘT LẦN</text>
+  <text x="420" y="346" fill="#ecf0f1" font-size="14" font-weight="600"> để báo hiệu xe phía trước</text>
+
+  <!-- Mục 3 -->
+  <circle cx="220" cy="385" r="14" fill="#4a1e1e" stroke="#e74c3c" stroke-width="1.5"/>
+  <text x="220" y="390" text-anchor="middle" fill="#e74c3c" font-size="14" font-weight="bold">✕</text>
+  <rect x="245" y="371" width="390" height="30" rx="6" fill="#2a1a1a" opacity="0.6"/>
+  <text x="262" y="391" fill="#ecf0f1" font-size="14" font-weight="600">Không bấm còi</text>
+  <text x="395" y="391" fill="#e74c3c" font-size="14" font-weight="700"> liên tục / inh ỏi</text>
+
+  <!-- Mục 4 -->
+  <circle cx="220" cy="430" r="14" fill="#1e2a4a" stroke="#3498db" stroke-width="1.5"/>
+  <text x="220" y="435" text-anchor="middle" fill="#3498db" font-size="13" font-weight="bold">↑</text>
+  <rect x="245" y="416" width="390" height="30" rx="6" fill="#1a2030" opacity="0.6"/>
+  <text x="262" y="436" fill="#ecf0f1" font-size="14" font-weight="600">Tối đa</text>
+  <text x="310" y="436" fill="#e74c3c" font-size="14" font-weight="700"> 3 lần</text>
+  <text x="348" y="436" fill="#ecf0f1" font-size="14" font-weight="600"> — vượt quá sẽ bị</text>
+  <text x="503" y="436" fill="#e74c3c" font-size="14" font-weight="700"> phạt vi phạm</text>
+
+  <!-- Điều 8 box -->
+  <rect x="200" y="458" width="500" height="50" rx="10" fill="#1a1205" stroke="#f39c12" stroke-width="1.5" stroke-opacity="0.5"/>
+  <text x="450" y="475" text-anchor="middle" fill="#f39c12" font-size="11" font-weight="600" opacity="0.8">CƠ SỞ PHÁP LÝ — LUẬT 36/2024/QH15</text>
+  <text x="310" y="499" fill="#ffffff" font-size="21" font-weight="900" letter-spacing="2" filter="url(#yellowGlow)">ĐIỀU 8</text>
+  <text x="390" y="499" fill="#bdc3c7" font-size="13"> — Hành vi bị nghiêm cấm (bấm còi sai)</text>
+
+  <!-- Nút bắt đầu -->
+  <rect x="200" y="516" width="500" height="42" rx="10" fill="#0a1a0a" stroke="#2ecc71" stroke-width="2" stroke-opacity="0.8"/>
+  <rect x="200" y="516" width="500" height="42" rx="10" fill="none" stroke="#2ecc71" stroke-width="1" stroke-opacity="0.3" stroke-dasharray="8,6"/>
+  <rect x="218" y="524" width="28" height="26" rx="5" fill="#1a2e1a" stroke="#2ecc71" stroke-width="2"/>
+  <text x="232" y="542" text-anchor="middle" fill="#2ecc71" font-size="15" font-weight="900">1</text>
+  <text x="390" y="540" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="700" letter-spacing="1">Bấm 1 khi sẵn sàng bắt đầu</text>
+  <text x="648" y="541" text-anchor="middle" fill="#2ecc71" font-size="18">▶</text>
+
+  <!-- Footer -->
+  <text x="450" y="608" text-anchor="middle" fill="#4a5568" font-size="12">VR Smart Traffic Instructor — Scene 5 Tutorial Panel</text>
+</svg>
