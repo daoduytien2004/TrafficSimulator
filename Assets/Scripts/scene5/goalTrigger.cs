@@ -23,7 +23,6 @@ public class GoalTrigger : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         reached = true;
-        Debug.Log("[GoalTrigger] Da den dich!");
 
         // Hiệu ứng
         if (goalEffect != null) goalEffect.SetActive(true);
