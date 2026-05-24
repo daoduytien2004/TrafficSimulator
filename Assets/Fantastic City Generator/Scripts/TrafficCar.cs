@@ -48,7 +48,7 @@ namespace FCG
         private float iRC = 0;
         private float brake2 = 0;
 
-        [HideInInspector] public Transform atualWay;
+        public Transform atualWay;
         [HideInInspector] public int sideAtual = 0;
         [HideInInspector] public FCGWaypointsContainer atualWayScript;
         [HideInInspector] public bool nodeSteerCarefully = false;

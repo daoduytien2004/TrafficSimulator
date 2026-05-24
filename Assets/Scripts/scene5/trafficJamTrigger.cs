@@ -38,26 +38,58 @@ public class TrafficJamTrigger : MonoBehaviour
     {
         if (redLight != null) redLight.SetActive(false);
         if (greenLight != null) greenLight.SetActive(true);
+
+        // Nếu player spawn bên trong zone → OnTriggerEnter không fire, phải check thủ công
+        StartCoroutine(CheckPlayerInsideOnStart());
+    }
+
+    private System.Collections.IEnumerator CheckPlayerInsideOnStart()
+    {
+        yield return null; // chờ 1 frame cho physics khởi động
+        var col = GetComponent<Collider>();
+        if (col == null || carController == null) yield break;
+
+        Collider[] hits = Physics.OverlapBox(
+            col.bounds.center, col.bounds.extents, transform.rotation);
+        foreach (var h in hits)
+        {
+            if (h.CompareTag("Player"))
+            {
+                triggered = true;
+                stoppedCars = FindNearbyNPCs();
+                foreach (var car in stoppedCars) car.ForceStop();
+                if (redLight != null) redLight.SetActive(true);
+                if (greenLight != null) greenLight.SetActive(false);
+                carController.EnterJamZone();
+                StartCoroutine(JamRoutine());
+                yield break;
+            }
+        }
     }
 
     // =========================================================================
     void OnTriggerEnter(Collider other)
     {
-        if (triggered) return;
         if (!other.CompareTag("Player")) return;
 
+        if (carController == null)
+        {
+            Debug.LogError("[TrafficJam] carController CHƯA GÁN trong Inspector! Horn zone sẽ không hoạt động.");
+            return;
+        }
+
+        carController.EnterJamZone(); // Luôn gọi kể cả khi player vào lại zone
+
+        if (triggered) return; // Chỉ chặn khởi động routine lần 2
         triggered = true;
 
         stoppedCars = FindNearbyNPCs();
-        Debug.Log($"[TrafficJam] Tim thay {stoppedCars.Count} xe NPC trong ban kinh {detectionRadius}m");
 
         foreach (var car in stoppedCars)
             car.ForceStop();
 
         if (redLight != null) redLight.SetActive(true);
         if (greenLight != null) greenLight.SetActive(false);
-
-        if (carController != null) carController.EnterJamZone();
 
         StartCoroutine(JamRoutine());
     }
@@ -110,7 +142,6 @@ public class TrafficJamTrigger : MonoBehaviour
                 {
                     car.ForceStop();
                     stoppedCars.Add(car);
-                    Debug.Log($"[TrafficJam] Xe moi vao zone: {car.name}");
                 }
             }
         }
@@ -126,7 +157,6 @@ public class TrafficJamTrigger : MonoBehaviour
 
         if (carController != null) carController.ExitJamZone();
 
-        Debug.Log("[TrafficJam] Duong da thong!");
     }
 
     // =========================================================================

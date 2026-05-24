@@ -88,6 +88,7 @@ public class VR_CarController_Scene5 : MonoBehaviour
     [Header("Horn — Tham chiếu hệ thống")]
     public NeighborReactionManager neighborManager;
     public GameOverManager hornGameOverManager;
+    public GameObject gameOverPanel;
     public ScreenShakeController screenShake;
     public HornUIController hornUI;
 
@@ -96,11 +97,14 @@ public class VR_CarController_Scene5 : MonoBehaviour
     private bool hornOnCooldown = false;
     private bool isInJamZone = false;
     private bool hornLocked = false;
+    private bool usedFreeHorn = false; // true sau lần còi hợp lệ đầu tiên di chuyển xe chắn
     // ─────────────────────────────────────────────────────────────────────────
 
     private string currentGear = "N";
     private float currentSpeed = 0f;
     private bool isCrashed = false;
+    private bool sceneStarted = false;
+    private bool waitingForGameOverRestart = false;
 
     // =========================================================================
     void Start()
@@ -118,6 +122,8 @@ public class VR_CarController_Scene5 : MonoBehaviour
         // Horn setup
         if (hornAudioSource == null)
             hornAudioSource = gameObject.AddComponent<AudioSource>();
+        if (hornGameOverManager != null && gameOverPanel != null && hornGameOverManager.gameOverPanel == null)
+            hornGameOverManager.gameOverPanel = gameOverPanel;
         ResetHornUI();
         ShowHornButton(false); // Ẩn nút còi cho đến khi vào zone kẹt xe
     }
@@ -139,6 +145,26 @@ public class VR_CarController_Scene5 : MonoBehaviour
     // =========================================================================
     void Update()
     {
+        // Phím 1: ưu tiên dismiss tutorial hoặc restart sau GameOver
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            if (tutorialPanel != null && tutorialPanel.activeSelf)
+            {
+                tutorialPanel.SetActive(false);
+                sceneStarted = true;
+            }
+            else if (waitingForGameOverRestart)
+            {
+                Time.timeScale = 1f;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                return;
+            }
+            else
+            {
+                SetGearN();
+            }
+        }
+
         if (isCrashed) return;
 
         // -- XIN NHAN --
@@ -168,7 +194,7 @@ public class VR_CarController_Scene5 : MonoBehaviour
         // -- SỐ --
         if ((buttonD != null && buttonD.action.WasPressedThisFrame()) || Input.GetKeyDown(KeyCode.Alpha2)) SetGearD();
         if ((buttonR != null && buttonR.action.WasPressedThisFrame()) || Input.GetKeyDown(KeyCode.Alpha3)) SetGearR();
-        if ((buttonN != null && buttonN.action.WasPressedThisFrame()) || Input.GetKeyDown(KeyCode.Alpha1)) SetGearN();
+        if (buttonN != null && buttonN.action.WasPressedThisFrame()) SetGearN();
 
         // -- LÁI XE --
         float joystickVertical = Input.GetAxisRaw("Vertical");
@@ -184,7 +210,7 @@ public class VR_CarController_Scene5 : MonoBehaviour
             }
             else if (joystickVertical < 0)
             {
-                if (currentSpeed > 1f && brakeAudio != null && !brakeAudio.isPlaying) brakeAudio.Stop();
+                if (currentSpeed > 1f && brakeAudio != null && !brakeAudio.isPlaying) brakeAudio.Play();
                 currentSpeed -= brakingForce * Time.deltaTime;
                 if (gasAudio != null && gasAudio.isPlaying) gasAudio.Stop();
             }
@@ -221,29 +247,12 @@ public class VR_CarController_Scene5 : MonoBehaviour
             float speedRatio = currentSpeed / maxSpeed;
             engineAudio.pitch = Mathf.Lerp(minPitch, maxPitch, speedRatio);
         }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            EnterJamZone();
-            Debug.Log("[TEST] Vào jam zone");
-        }
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            TryHorn();
-            Debug.Log("[TEST] Bấm còi");
-        }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            ExitJamZone();
-            Debug.Log("[TEST] Thoát jam zone");
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            hornWarningCount = 0;
-            hornLocked = false;
-            ResetHornUI();
-            hornUI?.HideAll();
-            Debug.Log("[TEST] Reset");
-        }
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.F6)) EnterJamZone();
+        if (Input.GetKeyDown(KeyCode.F7)) TryHorn();
+        if (Input.GetKeyDown(KeyCode.F8)) ExitJamZone();
+        if (Input.GetKeyDown(KeyCode.F9)) { hornWarningCount = 0; hornLocked = false; ResetHornUI(); hornUI?.HideAll(); }
+#endif
     }
 
     // =========================================================================
@@ -253,13 +262,23 @@ public class VR_CarController_Scene5 : MonoBehaviour
     /// <summary>Gọi từ TrafficJamTrigger khi xe vào zone kẹt</summary>
     public void EnterJamZone()
     {
+#if UNITY_EDITOR
+        Debug.Log("[Horn] EnterJamZone called — isInJamZone sẽ = true");
+#endif
+        // Auto-start nếu player vào zone trước khi bấm 1
+        if (!sceneStarted)
+        {
+            sceneStarted = true;
+            if (tutorialPanel != null) tutorialPanel.SetActive(false);
+        }
         isInJamZone = true;
         hornLocked = false;
         hornWarningCount = 0;
+        usedFreeHorn = false;
         ResetHornUI();
         ShowHornButton(true);
+        hornUI?.ShowZoneHint("Khu dân cư — hạn chế còi xe", 3f);
         hornUI?.ShowHornHint(true);
-        Debug.Log("[HornSystem] Đã vào zone kẹt xe.");
     }
 
     /// <summary>Gọi từ TrafficJamTrigger khi đường thông (thắng)</summary>
@@ -270,7 +289,6 @@ public class VR_CarController_Scene5 : MonoBehaviour
         ShowHornButton(false);
         hornUI?.ShowHornHint(false);
         hornUI?.HideAll();
-        Debug.Log("[HornSystem] Đường đã thông.");
     }
 
     /// <summary>Gọi từ nút còi trên UI</summary>
@@ -283,34 +301,31 @@ public class VR_CarController_Scene5 : MonoBehaviour
     private void TryHorn()
     {
         if (hornOnCooldown) return;
+#if UNITY_EDITOR
+        Debug.Log($"[Horn] TryHorn: isInJamZone={isInJamZone} usedFree={usedFreeHorn} count={hornWarningCount} locked={hornLocked}");
+#endif
+        if (hornSound != null) hornAudioSource.PlayOneShot(hornSound, 1f);
+        StartCoroutine(HornCooldownRoutine());
 
-        // TÌM XE CHẮN TRƯỚC
-        bool movedBlockingCar = false;
-        BlockingCar[] blockingCars = FindObjectsByType<BlockingCar>(FindObjectsSortMode.None);
-        foreach (BlockingCar bc in blockingCars)
+        // Lần còi hợp lệ duy nhất: di chuyển xe chắn (chỉ 1 lần miễn phạt)
+        if (!usedFreeHorn)
         {
-            if (Vector3.Distance(transform.position, bc.transform.position) <= bc.listenRadius)
+            BlockingCar[] blockingCars = FindObjectsByType<BlockingCar>(FindObjectsSortMode.None);
+            foreach (BlockingCar bc in blockingCars)
             {
-                if (bc.MoveAside())
+                if (Vector3.Distance(transform.position, bc.transform.position) <= bc.listenRadius)
                 {
-                    movedBlockingCar = true;
+                    if (bc.MoveAside())
+                    {
+                        usedFreeHorn = true;
+                        return;
+                    }
                 }
             }
         }
 
-        if (hornSound != null) hornAudioSource.PlayOneShot(hornSound, 1f);
-        StartCoroutine(HornCooldownRoutine());
-
-        // Nếu xe chắn đã dạt ra, không phạt người chơi
-        if (movedBlockingCar)
-        {
-            Debug.Log("[HornSystem] Đã bắt xe chắn dạt đường thành công, không tính phạt còi!");
-            return;
-        }
-
+        // Mọi lần còi tiếp theo đều tính vi phạm
         hornWarningCount++;
-        Debug.Log($"[HornSystem] Còi lần {hornWarningCount}/{maxHornWarnings}");
-
         switch (hornWarningCount)
         {
             case 1: TriggerHornWarning1(); break;
@@ -446,20 +461,28 @@ public class VR_CarController_Scene5 : MonoBehaviour
     {
         hornLocked = true;
         yield return new WaitForSeconds(delay);
-        
-        // 1. Hiển thị Game Over
+
+#if UNITY_EDITOR
+        Debug.Log($"[Horn] TriggerGameOver — hornGameOverManager={(hornGameOverManager != null ? "OK" : "NULL")} gameOverPanel={(gameOverPanel != null ? "OK" : "NULL")}");
+#endif
+
         if (hornGameOverManager != null)
+        {
             hornGameOverManager.TriggerGameOver(hornWarningCount);
+        }
         else
-            Debug.LogWarning("[HornSystem] GameOverManager chua duoc gan (nen se ko thay UI). Van se auto reset...");
+        {
+            // Fallback trực tiếp nếu hornGameOverManager chưa gán
+            if (gameOverPanel != null)
+            {
+                gameOverPanel.SetActive(true);
+                var cg = gameOverPanel.GetComponent<CanvasGroup>();
+                if (cg != null) cg.alpha = 1f;
+            }
+            Time.timeScale = 0f;
+        }
 
-        // 2. Chờ 3 giây cho người chơi xem dòng chữ Game Over (Dùng Realtime vì Time.timeScale đang = 0)
-        yield return new WaitForSecondsRealtime(3f);
-
-        // 3. Tự động Reset lại (Tải lại Scene hiện tại từ đầu)
-        Debug.Log("Resetting Scene...");
-        Time.timeScale = 1f; // Bắt buộc phải mở khóa thời gian trước khi Load lại màn
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+        waitingForGameOverRestart = true;
     }
 
     // =========================================================================
@@ -547,8 +570,8 @@ public class VR_CarController_Scene5 : MonoBehaviour
     // SỐ
     // =========================================================================
     public void SetGearN() { currentGear = "N"; UpdateGearDisplay(); }
-    public void SetGearD() { currentGear = "D"; UpdateGearDisplay(); if (tutorialPanel != null) tutorialPanel.SetActive(false); }
-    public void SetGearR() { currentGear = "R"; UpdateGearDisplay(); if (tutorialPanel != null) tutorialPanel.SetActive(false); }
+    public void SetGearD() { currentGear = "D"; UpdateGearDisplay(); }
+    public void SetGearR() { currentGear = "R"; UpdateGearDisplay(); }
 
     void UpdateGearDisplay()
     {
@@ -581,7 +604,6 @@ public class VR_CarController_Scene5 : MonoBehaviour
         if (leftSignalLight != null) leftSignalLight.SetActive(false);
         if (rightSignalLight != null) rightSignalLight.SetActive(false);
 
-        Debug.Log("[CarController] Da den dich — khoa dieu khien.");
     }
     public int GetHornCount() => hornWarningCount;
 }

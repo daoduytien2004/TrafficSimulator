@@ -51,7 +51,7 @@ public class GameOverManager : MonoBehaviour
     {
         if (gameOverPanel == null)
         {
-            Debug.LogWarning("[GameOverManager] gameOverPanel chưa được gán!");
+            Debug.LogError("[GameOverManager] gameOverPanel CHƯA GÁN! Game Over sẽ không hoạt động.");
             return;
         }
 
