@@ -15,10 +15,12 @@ public class PunishmentMoto : MonoBehaviour
 
     private Vector3 lastCarPos;
     private float carRealSpeed = 0f;
+
     private Vector3 laneForward;
+    private Vector3 laneRight; // BÌNH MỚI: Thêm trục ngang để lách
 
     [Header("Âm thanh xe máy")]
-    public AudioSource motoEngineAudio; // Loa gắn trên xe máy
+    public AudioSource motoEngineAudio;
 
     public void SetTarget(Transform car, float offset)
     {
@@ -26,7 +28,9 @@ public class PunishmentMoto : MonoBehaviour
         sideOffset = offset;
         isFollowing = true;
         lastCarPos = car.position;
+
         laneForward = transform.forward;
+        laneRight = transform.right; // Lưu lại hướng ngang của làn đường
     }
 
     void Update()
@@ -54,6 +58,21 @@ public class PunishmentMoto : MonoBehaviour
                 currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * 3f);
                 currentSpeed = Mathf.Clamp(currentSpeed, 2f, carRealSpeed + 10f);
             }
+
+            // --- BÌNH MỚI: TỰ ĐỘNG DUY TRÌ KHOẢNG CÁCH NGANG ---
+            // Tính độ hở ngang hiện tại giữa ô tô và xe máy
+            float currentHorizontalGap = Vector3.Dot(transform.position - targetCar.position, laneRight);
+
+            // Nếu ô tô đi loạng choạng ép sát vào xe máy (Khoảng cách bị thu hẹp)
+            // sideOffset là khoảng cách an toàn. Mathf.Abs dùng để lấy số dương cho dễ so sánh
+            if (Mathf.Abs(currentHorizontalGap) < Mathf.Abs(sideOffset))
+            {
+                // Tự động đẩy chiếc xe máy dạt ra xa theo phương ngang để không cạ vào đít xe
+                float pushDirection = Mathf.Sign(sideOffset); // Xác định đang ở trái hay phải
+                transform.position += laneRight * pushDirection * Time.deltaTime * 3f;
+            }
+            // ---------------------------------------------------
+
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(laneForward), Time.deltaTime * 5f);
         }
         else if (isCrashing)
@@ -72,12 +91,10 @@ public class PunishmentMoto : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(laneForward), Time.deltaTime * 5f);
         }
 
-        transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime);
+        transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime, Space.World); // Ép đi thẳng theo thế giới thực
 
-        // --- ĐIỀU CHỈNH TIẾNG PÔ XE THEO TỐC ĐỘ ---
         if (motoEngineAudio != null)
         {
-            // Tốc độ càng cao, tiếng máy càng thanh và gắt (Pitch từ 0.8 đến 2.5)
             motoEngineAudio.pitch = Mathf.Lerp(0.8f, 2.5f, currentSpeed / 45f);
         }
     }

@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Road
   - EnemyMoto
+  - IaCar
+  - Stop
+  - Marcador
+  - Ambulance
   layers:
   - Default
   - TransparentFX

@@ -1,0 +1,187 @@
+/*  HornWarningHUD.uss — v2
+    Tối ưu cho VR: chữ to, tương phản cao, dễ đọc từ xa  */
+
+/* ── Vignette ────────────────────────────────────────────────────────────── */
+.vignette {
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    border-left-width: 36px;
+    border-right-width: 36px;
+    border-top-width: 36px;
+    border-bottom-width: 36px;
+    border-color: rgba(200, 20, 20, 0);
+    picking-mode: ignore;
+    transition-property: border-color;
+    transition-duration: 0.35s;
+}
+.vignette.level-2 { border-color: rgba(200, 80, 0, 0.28); }
+.vignette.level-3 { border-color: rgba(200, 20, 20, 0.55); }
+
+/* ── HUD root ────────────────────────────────────────────────────────────── */
+.hud-root {
+    position: absolute;
+    top: 20px;
+    left: 0; right: 0;
+    align-items: center;
+    flex-direction: column;
+    picking-mode: ignore;
+}
+
+/* ── Warning card ────────────────────────────────────────────────────────── */
+.warning-card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 14px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-color: rgba(224, 160, 32, 0.9);
+    padding: 12px 24px;
+    margin-bottom: 8px;
+    transition-property: border-color;
+    transition-duration: 0.25s;
+}
+.warning-card.level-2 { border-color: rgba(208, 80, 16, 0.95); }
+.warning-card.level-3 { border-color: rgba(192, 24, 24, 1); }
+
+/* ── Icon tròn ───────────────────────────────────────────────────────────── */
+.warn-icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 22px;
+    background-color: rgba(224, 160, 32, 1);
+    align-items: center;
+    justify-content: center;
+    margin-right: 14px;
+    flex-shrink: 0;
+    transition-property: background-color;
+    transition-duration: 0.25s;
+}
+.warning-card.level-2 .warn-icon-circle { background-color: rgba(208, 80, 16, 1); }
+.warning-card.level-3 .warn-icon-circle { background-color: rgba(192, 24, 24, 1); }
+
+.warn-icon-text {
+    font-size: 26px;
+    -unity-font-style: bold;
+    color: rgba(0, 0, 0, 0.85);
+    -unity-text-align: middle-center;
+}
+.warning-card.level-3 .warn-icon-text { color: rgba(255, 255, 255, 0.95); }
+
+/* ── Text tiêu đề + sub ──────────────────────────────────────────────────── */
+.warn-texts {
+    flex-direction: column;
+    margin-right: 16px;
+}
+
+.warn-title {
+    font-size: 22px;
+    -unity-font-style: bold;
+    color: rgba(255, 208, 80, 1);
+    -unity-text-align: middle-left;
+    transition-property: color;
+    transition-duration: 0.25s;
+}
+.warning-card.level-2 .warn-title { color: rgba(255, 140, 60, 1); }
+.warning-card.level-3 .warn-title { color: rgba(255, 100, 100, 1); }
+
+.warn-sub {
+    font-size: 14px;
+    color: rgba(200, 200, 200, 0.75);
+    -unity-text-align: middle-left;
+    margin-top: 2px;
+}
+
+/* ── 3 chấm đếm ─────────────────────────────────────────────────────────── */
+.dot-row {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-color: rgba(255, 255, 255, 0.25);
+    transition-property: background-color;
+    transition-duration: 0.2s;
+}
+.dot.filled-1 { background-color: rgba(224, 160, 32, 1); border-color: rgba(224, 160, 32, 0); }
+.dot.filled-2 { background-color: rgba(208, 80, 16, 1);  border-color: rgba(208, 80, 16, 0); }
+.dot.filled-3 { background-color: rgba(192, 24, 24, 1);  border-color: rgba(192, 24, 24, 0); }
+
+/* ── Cooldown pill ───────────────────────────────────────────────────────── */
+.cooldown-pill {
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
+    padding: 5px 18px;
+}
+
+.cooldown-text {
+    font-size: 14px;
+    color: rgba(200, 200, 200, 0.65);
+    -unity-text-align: middle-center;
+}
+
+/* ── Horn hint — góc dưới ────────────────────────────────────────────────── */
+.horn-hint {
+    position: absolute;
+    bottom: 16px;
+    left: 0; right: 0;
+    align-items: center;
+    picking-mode: ignore;
+}
+
+.horn-hint-text {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.35);
+    background-color: rgba(0, 0, 0, 0.45);
+    border-radius: 8px;
+    padding: 4px 14px;
+    -unity-text-align: middle-center;
+}
+
+/* ── Zone hint — banner trên cùng khi vào khu vực ───────────────────────── */
+.zone-hint {
+    position: absolute;
+    top: 20px;
+    left: 0; right: 0;
+    align-items: center;
+    picking-mode: ignore;
+}
+
+.zone-hint-text {
+    font-size: 18px;
+    -unity-font-style: bold;
+    color: rgba(255, 220, 80, 1);
+    background-color: rgba(0, 0, 0, 0.72);
+    border-radius: 10px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-color: rgba(255, 200, 40, 0.6);
+    padding: 8px 24px;
+    -unity-text-align: middle-center;
+}
+
+/* ── Utility ─────────────────────────────────────────────────────────────── */
+.hidden { display: none; }
+.visible { display: flex; }
