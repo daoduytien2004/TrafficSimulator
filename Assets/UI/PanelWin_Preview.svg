@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0a1a0a"/>
+      <stop offset="100%" stop-color="#050d05"/>
+    </radialGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a2e1a" stop-opacity="0.97"/>
+      <stop offset="100%" stop-color="#0a1a0a" stop-opacity="0.97"/>
+    </linearGradient>
+    <radialGradient id="iconGrad" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#2ecc71"/>
+      <stop offset="100%" stop-color="#1a8a45"/>
+    </radialGradient>
+    <linearGradient id="topBorder" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2ecc71" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#2ecc71"/>
+      <stop offset="70%" stop-color="#2ecc71"/>
+      <stop offset="100%" stop-color="#2ecc71" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="btnGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#27ae60"/>
+      <stop offset="100%" stop-color="#1a7a40"/>
+    </linearGradient>
+    <filter id="greenGlow">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="panelShadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="20" flood-color="#00ff44" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect width="900" height="620" fill="url(#bgGrad)"/>
+  <g opacity="0.04" stroke="#ffffff" stroke-width="1">
+    <line x1="0" y1="100" x2="900" y2="100"/><line x1="0" y1="200" x2="900" y2="200"/>
+    <line x1="0" y1="300" x2="900" y2="300"/><line x1="0" y1="400" x2="900" y2="400"/>
+    <line x1="0" y1="500" x2="900" y2="500"/>
+    <line x1="150" y1="0" x2="150" y2="620"/><line x1="300" y1="0" x2="300" y2="620"/>
+    <line x1="450" y1="0" x2="450" y2="620"/><line x1="600" y1="0" x2="600" y2="620"/>
+    <line x1="750" y1="0" x2="750" y2="620"/>
+  </g>
+
+  <!-- Panel chính -->
+  <rect x="150" y="60" width="600" height="500" rx="20"
+        fill="url(#panelGrad)" filter="url(#panelShadow)"/>
+  <rect x="150" y="60" width="600" height="4" rx="2" fill="url(#topBorder)"/>
+  <rect x="150" y="60" width="600" height="500" rx="20"
+        fill="none" stroke="#2ecc71" stroke-width="1" stroke-opacity="0.35"/>
+
+  <!-- Icon dấu tick -->
+  <circle cx="450" cy="168" r="62" fill="#00ff44" opacity="0.08" filter="url(#greenGlow)"/>
+  <circle cx="450" cy="168" r="50" fill="url(#iconGrad)" filter="url(#greenGlow)"/>
+  <circle cx="450" cy="168" r="50" fill="none" stroke="#2ecc71" stroke-width="2" opacity="0.7"/>
+  <polyline points="428,168 443,183 472,152"
+            fill="none" stroke="white" stroke-width="5"
+            stroke-linecap="round" stroke-linejoin="round" filter="url(#softGlow)"/>
+  <circle cx="450" cy="168" r="62" fill="none" stroke="#2ecc71" stroke-width="1"
+          opacity="0.2" stroke-dasharray="8,6"/>
+
+  <!-- Tiêu đề -->
+  <text x="450" y="250" text-anchor="middle"
+        fill="#2ecc71" font-size="24" font-weight="700"
+        letter-spacing="3" filter="url(#greenGlow)">HOÀN THÀNH KỊCH BẢN!</text>
+
+  <line x1="230" y1="266" x2="670" y2="266" stroke="#2ecc71" stroke-width="1" opacity="0.25"/>
+
+  <!-- Đánh giá tổng -->
+  <rect x="200" y="280" width="500" height="46" rx="10"
+        fill="#0d2a0d" stroke="#2ecc71" stroke-width="1" stroke-opacity="0.4"/>
+  <text x="450" y="298" text-anchor="middle" fill="#a8e6c0" font-size="13">Bạn đã xử lý tình huống xe cấp cứu</text>
+  <text x="450" y="316" text-anchor="middle" fill="#2ecc71" font-size="14" font-weight="700">ĐÚNG QUY ĐỊNH PHÁP LUẬT</text>
+
+  <!-- Mục 1 -->
+  <circle cx="228" cy="360" r="12" fill="#1e3d1e" stroke="#2ecc71" stroke-width="1.5"/>
+  <text x="228" y="365" text-anchor="middle" fill="#2ecc71" font-size="12" font-weight="bold">✓</text>
+  <text x="252" y="365" fill="#ecf0f1" font-size="14">Đã lách xe nhường đường hợp lệ</text>
+
+  <!-- Mục 2 -->
+  <circle cx="228" cy="400" r="12" fill="#1e3d1e" stroke="#2ecc71" stroke-width="1.5"/>
+  <text x="228" y="405" text-anchor="middle" fill="#2ecc71" font-size="12" font-weight="bold">✓</text>
+  <text x="252" y="405" fill="#ecf0f1" font-size="14">Không vượt đèn đỏ qua ngã tư</text>
+
+  <!-- Mục 3 -->
+  <circle cx="228" cy="440" r="12" fill="#1e3d1e" stroke="#2ecc71" stroke-width="1.5"/>
+  <text x="228" y="445" text-anchor="middle" fill="#2ecc71" font-size="12" font-weight="bold">✓</text>
+  <text x="252" y="445" fill="#ecf0f1" font-size="14">Xe cấp cứu đã đi qua an toàn</text>
+
+  <!-- Nút Tiếp tục -->
+  <rect x="310" y="472" width="280" height="52" rx="12" fill="url(#btnGrad)"/>
+  <rect x="310" y="472" width="280" height="52" rx="12"
+        fill="none" stroke="#2ecc71" stroke-width="1.5" opacity="0.5"/>
+  <text x="450" y="504" text-anchor="middle"
+        fill="white" font-size="17" font-weight="700" letter-spacing="2">TIẾP TỤC  ▶</text>
+
+  <!-- Badge -->
+  <rect x="330" y="68" width="240" height="26" rx="13" fill="#1a8a45" opacity="0.9"/>
+  <text x="450" y="86" text-anchor="middle"
+        fill="white" font-size="12" font-weight="700" letter-spacing="1">KẾT QUẢ: XUẤT SẮC</text>
+
+  <!-- Scene label -->
+  <rect x="158" y="68" width="90" height="26" rx="5" fill="#2ecc71" opacity="0.15"/>
+  <text x="203" y="85" text-anchor="middle"
+        fill="#2ecc71" font-size="14" font-weight="700" letter-spacing="1">SCENE 06</text>
+
+  <text x="450" y="590" text-anchor="middle"
+        fill="#2a4a2a" font-size="12">VR Smart Traffic Instructor — Scene 6 Hoàn thành</text>
+</svg>

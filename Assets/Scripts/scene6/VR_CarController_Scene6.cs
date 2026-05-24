@@ -27,6 +27,8 @@ public class VR_CarController_Scene6 : MonoBehaviour
     public GameObject tutorialPanel;
     public GameObject accidentPanel;
     public float resetDelay = 3f;
+    [Tooltip("Tắt để debug — không tự reload scene khi tai nạn")]
+    public bool autoRestartOnCrash = true;
 
     [Header("Nút VR")]
     public InputActionReference buttonD;
@@ -198,8 +200,13 @@ public class VR_CarController_Scene6 : MonoBehaviour
     // =========================================================================
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Road") || isCrashed) return;
+        if (isCrashed) return;
+        if (collision.gameObject.CompareTag("Road")) return;
         if (currentSpeed < 2f && !collision.gameObject.CompareTag("EnemyMoto")) return;
+
+        // Bị đâm từ phía sau (xe cứu thương tiến vào) → không tính tai nạn
+        Vector3 contactNormal = collision.GetContact(0).normal;
+        if (Vector3.Dot(transform.forward, contactNormal) > 0.5f) return;
 
         isCrashed = true;
         if (crashAudioSource != null) crashAudioSource.Play();
@@ -218,7 +225,8 @@ public class VR_CarController_Scene6 : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(resetDelay);
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (autoRestartOnCrash)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     // =========================================================================

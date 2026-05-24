@@ -3,16 +3,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
-using FCG;
 
 /// <summary>
 /// Quản lý state machine Scene 6 — Nhường đường xe cấp cứu.
+///
+/// Phát hiện đèn đỏ bằng raycast (giống NPC cars của FCG):
+///   Bắn ray từ xe player về phía trước — nếu trúng object tên "Stop" → đèn đỏ.
 ///
 /// States:
 ///   WAITING_AT_RED       → đang chờ đèn đỏ
 ///   AMBULANCE_APPROACHING → xe cấp cứu đang đến
 ///   PLAYER_YIELDED        → người chơi đã nhường đúng cách → Win
-///   PLAYER_BLOCKED        → đứng im chặn → phạt Điều 22
+///   PLAYER_BLOCKED        → đứng im chặn → phạt Điều 27
 ///   PLAYER_RAN_RED        → vượt hẳn qua ngã tư → phạt Điều 11
 /// </summary>
 public class Scene6Manager : MonoBehaviour
@@ -33,11 +35,9 @@ public class Scene6Manager : MonoBehaviour
     public AmbulanceAI ambulance;
     public Transform playerTransform;
 
-    [Header("Đèn giao thông FCG")]
-    [Tooltip("Kéo component TrafficLights2 của cụm đèn ngã tư vào đây")]
-    public TrafficLights2 trafficLightsController;
-    [Tooltip("Kéo component TrafficLight của đèn PHÍA TRƯỚC xe player vào đây")]
-    public TrafficLight playerFacingLight;
+    [Header("Phát hiện đèn giao thông (Raycast — không cần gán thủ công)")]
+    [Tooltip("Khoảng cách tối đa raycast kiểm tra đèn phía trước xe player")]
+    public float stopDetectDistance = 12f;
 
     [Header("Điều kiện nhường đúng cách")]
     [Tooltip("Khoảng cách tối thiểu player phải dịch về phía bên (ngang) để tính là nhường")]
@@ -52,53 +52,102 @@ public class Scene6Manager : MonoBehaviour
     public float redLightDuration = 15f;
 
     [Header("UI Panels")]
-    public GameObject panelBlocked;   // Vi phạm Điều 22 — cản trở xe ưu tiên
+    public GameObject panelBlocked;   // Vi phạm Điều 27 — cản trở xe ưu tiên
     public GameObject panelRanRed;    // Vi phạm Điều 11 — vượt đèn đỏ
     public GameObject panelWin;       // Hoàn thành kịch bản
     public GameObject panelTutorial;  // Hướng dẫn ban đầu
+    public GameObject retryButton;    // Nút Thử lại dùng chung
+
+    [Header("Âm thanh vi phạm")]
+    public AudioSource policeWhistleAudio;
+    public AudioClip policeWhistleClip;
 
     [Header("Cài đặt Reset")]
     public float resetDelay = 4f;
     public int nextSceneIndex = -1;   // -1 = không chuyển scene
 
-    private float stopLineZ;          // Z của vạch dừng (tính tiến/lùi)
-    private float startX;             // X ban đầu của player (tính lệch ngang)
+    private float stopLineZ;
+    private float startX;
     private bool outcomeDecided = false;
+    private bool sceneStarted = false;
 
     // =========================================================================
     void Start()
     {
+        // Đảm bảo scene chạy bình thường dù reload từ CarController (timeScale có thể = 0)
+        Time.timeScale = 1f;
+
         if (panelBlocked != null) panelBlocked.SetActive(false);
         if (panelRanRed != null) panelRanRed.SetActive(false);
         if (panelWin != null) panelWin.SetActive(false);
         if (panelTutorial != null) panelTutorial.SetActive(true);
+        if (retryButton != null) retryButton.SetActive(false);
 
         if (stopLineTransform != null) stopLineZ = stopLineTransform.position.z;
         if (playerTransform != null) startX = playerTransform.position.x;
+    }
 
-        // Tắt chu kỳ tự động của FCG, khoá đèn đỏ cho player
-        if (trafficLightsController != null) trafficLightsController.enabled = false;
-        if (playerFacingLight != null) playerFacingLight.SetStatus("1"); // "1" = Đỏ
+    // Raycast giống NPC cars — trúng object tên "Stop" = đèn đỏ
+    private bool IsPlayerAtRedLight()
+    {
+        if (playerTransform == null) return false;
+        Ray ray = new Ray(playerTransform.position + Vector3.up * 0.5f, playerTransform.forward);
+        return Physics.Raycast(ray, out RaycastHit hit, stopDetectDistance)
+               && hit.transform.name == "Stop";
+    }
 
-        StartCoroutine(RedLightCountdown());
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            Debug.Log($"[Scene6] Key 1 pressed — panelTutorial={(panelTutorial != null ? panelTutorial.activeSelf.ToString() : "NULL")} sceneStarted={sceneStarted}");
+            if (panelTutorial != null && panelTutorial.activeSelf)
+            {
+                panelTutorial.SetActive(false);
+                sceneStarted = true;
+                StartCoroutine(TrackLightState());
+            }
+            else if (outcomeDecided)
+                RestartScene();
+        }
+
+        if (!sceneStarted || playerTransform == null) return;
+
+        bool isRed = IsPlayerAtRedLight();
+
+        if (!outcomeDecided && redLightCountdownText != null && !isRed)
+            redLightCountdownText.text = "ĐÈN XANH";
     }
 
     // =========================================================================
-    private IEnumerator RedLightCountdown()
+    private IEnumerator TrackLightState()
     {
-        float remaining = redLightDuration;
+        float redElapsed = 0f;
 
-        while (remaining > 0f)
+        while (!outcomeDecided)
         {
-            if (redLightCountdownText != null)
-                redLightCountdownText.text = $"Den do: {Mathf.CeilToInt(remaining)}s";
+            bool isRed = IsPlayerAtRedLight();
 
-            remaining -= Time.deltaTime;
+            if (isRed)
+            {
+                redElapsed += Time.deltaTime;
+                float remaining = Mathf.Max(0f, redLightDuration - redElapsed);
+                if (redLightCountdownText != null)
+                    redLightCountdownText.text = $"Đèn đỏ: {Mathf.CeilToInt(remaining)}s";
+            }
+            else
+            {
+                redElapsed = 0f;
+            }
+
             yield return null;
         }
+    }
 
-        if (redLightCountdownText != null)
-            redLightCountdownText.text = "DEN XANH";
+    private void SwitchToGreen()
+    {
+        if (redLightCountdownText != null) redLightCountdownText.text = "ĐÈN XANH";
+        // IntersectionZone do TrafficLightSync.cs tự tắt khi đèn xanh
     }
 
     // =========================================================================
@@ -107,9 +156,17 @@ public class Scene6Manager : MonoBehaviour
     {
         if (currentState != ScenarioState.WAITING_AT_RED) return;
 
+        // Auto-start nếu player vào trigger trước khi bấm phím 1
+        if (!sceneStarted)
+        {
+            sceneStarted = true;
+            if (panelTutorial != null) panelTutorial.SetActive(false);
+            StartCoroutine(TrackLightState());
+        }
+
         currentState = ScenarioState.AMBULANCE_APPROACHING;
 
-        if (panelTutorial != null) panelTutorial.SetActive(false);
+        if (ambulance == null) Debug.LogError("[Scene6Manager] ambulance chưa được gán!");
         if (ambulance != null) ambulance.StartApproaching(playerTransform);
 
         StartCoroutine(MonitorPlayerBehavior());
@@ -120,9 +177,7 @@ public class Scene6Manager : MonoBehaviour
     {
         while (currentState == ScenarioState.AMBULANCE_APPROACHING)
         {
-            // Đã có outcome từ ambulance callback → thoát
             if (outcomeDecided) yield break;
-
             yield return null;
         }
     }
@@ -133,7 +188,6 @@ public class Scene6Manager : MonoBehaviour
     {
         if (outcomeDecided) return;
 
-        // Kiểm tra player có thực sự nhường đúng cách không
         if (playerTransform == null) { ResolveYielded(); return; }
 
         float lateralMove = Mathf.Abs(playerTransform.position.x - startX);
@@ -147,7 +201,7 @@ public class Scene6Manager : MonoBehaviour
         else if (forwardMove > maxForwardDistance)
             ResolveRanRed();
         else
-            ResolveBlocked(); // Dạt ngang không đủ → không tạo được lối
+            ResolveBlocked();
     }
 
     /// <summary>Gọi từ AmbulanceAI khi bị chặn quá lâu</summary>
@@ -157,7 +211,7 @@ public class Scene6Manager : MonoBehaviour
         ResolveBlocked();
     }
 
-    /// <summary>Gọi từ IntersectionZone khi player vượt qua ngã tư hoàn toàn</summary>
+    /// <summary>Gọi từ IntersectionZoneTrigger khi player vượt qua ngã tư khi đèn đỏ</summary>
     public void OnPlayerRanRedLight()
     {
         if (outcomeDecided) return;
@@ -170,9 +224,7 @@ public class Scene6Manager : MonoBehaviour
         outcomeDecided = true;
         currentState = ScenarioState.PLAYER_YIELDED;
 
-        // Bật đèn xanh khi player thắng
-        if (playerFacingLight != null) playerFacingLight.SetStatus("3"); // "3" = Xanh
-        if (redLightCountdownText != null) redLightCountdownText.text = "ĐÈN XANH";
+        SwitchToGreen();
 
         if (panelWin != null) panelWin.SetActive(true);
         Time.timeScale = 0f;
@@ -185,10 +237,10 @@ public class Scene6Manager : MonoBehaviour
         outcomeDecided = true;
         currentState = ScenarioState.PLAYER_BLOCKED;
 
+        PlayViolationSound();
         if (panelBlocked != null) panelBlocked.SetActive(true);
+        if (retryButton != null) retryButton.SetActive(true);
         Time.timeScale = 0f;
-
-        StartCoroutine(ResetRoutine());
     }
 
     private void ResolveRanRed()
@@ -196,17 +248,26 @@ public class Scene6Manager : MonoBehaviour
         outcomeDecided = true;
         currentState = ScenarioState.PLAYER_RAN_RED;
 
+        PlayViolationSound();
         if (panelRanRed != null) panelRanRed.SetActive(true);
+        if (retryButton != null) retryButton.SetActive(true);
         Time.timeScale = 0f;
-
-        StartCoroutine(ResetRoutine());
     }
 
-    private IEnumerator ResetRoutine()
+    private void PlayViolationSound()
     {
-        yield return new WaitForSecondsRealtime(resetDelay);
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        foreach (AudioSource src in FindObjectsByType<AudioSource>(FindObjectsSortMode.None))
+        {
+            if (src != policeWhistleAudio)
+                src.Stop();
+        }
+
+        if (policeWhistleAudio != null && policeWhistleClip != null)
+        {
+            policeWhistleAudio.clip = policeWhistleClip;
+            policeWhistleAudio.loop = false;
+            policeWhistleAudio.Play();
+        }
     }
 
     private IEnumerator LoadNextRoutine()
@@ -220,9 +281,6 @@ public class Scene6Manager : MonoBehaviour
     }
 
     // =========================================================================
-    // GỌI TỪ NÚT "THỬ LẠI" TRÊN UI
-    // =========================================================================
-
     /// <summary>Gọi từ nút Thử lại trên Panel_Blocked và Panel_RanRed</summary>
     public void RestartScene()
     {

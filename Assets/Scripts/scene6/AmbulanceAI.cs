@@ -1,21 +1,18 @@
 using System.Collections;
 using UnityEngine;
 
-/// <summary>
-/// Xe cấp cứu chạy theo waypoint, hú còi spatial audio, đèn nháy đỏ/xanh.
-/// Khi bị chặn → dừng lại → báo Scene6Manager.
-/// Khi đi qua được → báo Scene6Manager player đã nhường đường.
-/// </summary>
 public class AmbulanceAI : MonoBehaviour
 {
     [Header("Waypoints")]
-    [Tooltip("Danh sách điểm đường đi theo thứ tự. Waypoint[0] = spawn point.")]
     public Transform[] waypoints;
-    public float moveSpeed = 8f;
-    public float waypointReachDistance = 1.5f;
+    [Tooltip("Tốc độ di chuyển (m/s). 15 ≈ 54 km/h, 20 ≈ 72 km/h")]
+    public float moveSpeed = 15f;
+    public float waypointReachDistance = 2.5f;
+
+    [Header("Căn mặt đường")]
+    public float groundYOffset = 2.5f;
 
     [Header("Âm thanh")]
-    [Tooltip("AudioSource 3D gắn trên xe cấp cứu — bật Spatial Blend = 1")]
     public AudioSource sirenAudio;
     public AudioClip sirenClip;
 
@@ -26,132 +23,193 @@ public class AmbulanceAI : MonoBehaviour
     public GameObject blueLight2;
     public float flashInterval = 0.25f;
 
-    [Header("Phát hiện bị chặn")]
-    [Tooltip("Khoảng cách tối thiểu để phát hiện bị chặn bởi player")]
-    public float blockedDetectionDistance = 4f;
-    [Tooltip("Thời gian bị chặn (giây) trước khi kết luận player không nhường")]
-    public float blockedTimeout = 8f;
+    [Header("Logic dừng chờ")]
+    [Tooltip("Phát hiện xe cản trong vòng X mét phía trước → dừng chờ")]
+    public float stopDistance = 10f;
+    [Tooltip("Thời gian (giây) còi hú trước khi xe bắt đầu chạy")]
+    public float sirenWarningDelay = 4f;
+    [Tooltip("Nếu xe player chắn quá X giây → kết luận không nhường")]
+    public float playerBlockedTimeout = 15f;
 
     [Header("Tham chiếu")]
     public Scene6Manager scene6Manager;
 
-    private int currentWaypointIndex = 0;
-    private bool isMoving = false;
-    private bool isBlocked = false;
-    private bool hasPassedPlayer = false;
-    private float blockedTimer = 0f;
+    // ── Private ───────────────────────────────────────────────────────────────
+    private Rigidbody rb;
     private Transform playerTransform;
 
+    private int   currentWaypointIndex = 0;
+    private bool  hasPassedPlayer      = false;
+    private bool  isActive             = false; // bắt đầu di chuyển sau delay
+    private float playerBlockedTimer   = 0f;
+
     // =========================================================================
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        if (rb == null) rb = gameObject.AddComponent<Rigidbody>();
+
+        rb.isKinematic            = false;
+        rb.useGravity             = false;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rb.constraints            = RigidbodyConstraints.FreezePositionY
+                                  | RigidbodyConstraints.FreezeRotationX
+                                  | RigidbodyConstraints.FreezeRotationZ;
+    }
+
     void Start()
     {
         if (sirenAudio != null && sirenClip != null)
         {
-            sirenAudio.clip = sirenClip;
-            sirenAudio.loop = true;
+            sirenAudio.clip         = sirenClip;
+            sirenAudio.loop         = true;
             sirenAudio.spatialBlend = 1f;
             sirenAudio.Stop();
         }
-
         SetLights(false, false);
-        gameObject.SetActive(false); // Bị kích hoạt bởi EmergencyVehicleTrigger
+        gameObject.SetActive(false);
     }
 
     // =========================================================================
-    /// <summary>Gọi từ EmergencyVehicleTrigger để bắt đầu kịch bản</summary>
     public void StartApproaching(Transform player)
     {
         playerTransform = player;
-        isMoving = true;
 
-        if (sirenAudio != null) sirenAudio.Play();
-        StartCoroutine(FlashLightsRoutine());
-
-        // Đặt vị trí tại waypoint[0]
         if (waypoints != null && waypoints.Length > 0)
         {
-            transform.position = waypoints[0].position;
+            Vector3 spawnPos = waypoints[0].position;
+            spawnPos.y += groundYOffset;
+            transform.position = spawnPos;
             transform.rotation = waypoints[0].rotation;
             currentWaypointIndex = 1;
         }
 
         gameObject.SetActive(true);
-        StartCoroutine(MoveRoutine());
+
+        if (sirenAudio != null) sirenAudio.Play();
+        StartCoroutine(FlashLightsRoutine());
+        StartCoroutine(DelayThenStart());
+    }
+
+    private IEnumerator DelayThenStart()
+    {
+        // Còi hú trước, xe đứng yên
+        yield return new WaitForSeconds(sirenWarningDelay);
+        isActive = true;
     }
 
     // =========================================================================
-    private IEnumerator MoveRoutine()
+    void FixedUpdate()
     {
-        while (isMoving && currentWaypointIndex < waypoints.Length)
+        if (!isActive) { rb.linearVelocity = Vector3.zero; return; }
+        if (currentWaypointIndex >= waypoints.Length) return;
+
+        Transform target    = waypoints[currentWaypointIndex];
+        Vector3   direction = (target.position - transform.position).normalized;
+
+        // ── Kiểm tra có xe nào trong stopDistance phía trước không ──
+        bool carAhead = HasCarAhead(out bool isPlayerAhead);
+
+        if (carAhead)
         {
-            Transform target = waypoints[currentWaypointIndex];
-            float distToTarget = Vector3.Distance(transform.position, target.position);
+            // Dừng hẳn, không nhúc nhích
+            rb.linearVelocity = Vector3.zero;
 
-            // Kiểm tra bị chặn bởi player
-            if (playerTransform != null && !hasPassedPlayer)
+            // Nếu xe cản là Player → tính giờ chờ
+            if (isPlayerAhead && !hasPassedPlayer)
             {
-                float distToPlayer = Vector3.Distance(transform.position, playerTransform.position);
-
-                if (distToPlayer < blockedDetectionDistance)
+                playerBlockedTimer += Time.fixedDeltaTime;
+                if (playerBlockedTimer >= playerBlockedTimeout)
                 {
-                    // Player đang cản trước mặt
-                    isBlocked = true;
-                    blockedTimer += Time.deltaTime;
-
-                    if (blockedTimer >= blockedTimeout)
-                    {
-                        // Hết giờ chờ → player không nhường
-                        scene6Manager?.OnPlayerBlocked();
-                        isMoving = false;
-                        yield break;
-                    }
-
-                    yield return null;
-                    continue;
-                }
-                else
-                {
-                    isBlocked = false;
-                    blockedTimer = 0f;
+                    isActive = false;
+                    scene6Manager?.OnPlayerBlocked();
                 }
             }
+        }
+        else
+        {
+            // Đường trống → chạy bình thường
+            playerBlockedTimer = 0f;
+            rb.linearVelocity  = direction * moveSpeed;
 
-            // Di chuyển đến waypoint hiện tại
-            Vector3 direction = (target.position - transform.position).normalized;
-            transform.position += direction * moveSpeed * Time.deltaTime;
-
-            // Xoay mặt về hướng di chuyển
+            // Xoay về hướng di chuyển
             if (direction != Vector3.zero)
-                transform.rotation = Quaternion.Slerp(transform.rotation,
-                    Quaternion.LookRotation(direction), 8f * Time.deltaTime);
+                rb.MoveRotation(Quaternion.Slerp(transform.rotation,
+                    Quaternion.LookRotation(direction), 10f * Time.fixedDeltaTime));
 
-            // Đến waypoint → chuyển sang waypoint tiếp
-            if (distToTarget < waypointReachDistance)
+            // Đến waypoint → chuyển tiếp
+            float dist = Vector3.Distance(transform.position, target.position);
+            if (dist < waypointReachDistance)
             {
-                // Waypoint[1] là điểm ngay sau player → nếu đến được = đã vượt qua player
-                if (currentWaypointIndex == 1 && !hasPassedPlayer)
+                if (currentWaypointIndex == 2 && !hasPassedPlayer)
                 {
                     hasPassedPlayer = true;
-                    // Chỉ thông báo "đã qua" nếu player chủ động nhường (Scene6Manager tự phán)
                     scene6Manager?.OnAmbulancePassed();
                 }
                 currentWaypointIndex++;
+
+                // Hết waypoint → kết thúc
+                if (currentWaypointIndex >= waypoints.Length)
+                {
+                    isActive = false;
+                    rb.linearVelocity = Vector3.zero;
+                    if (sirenAudio != null) sirenAudio.Stop();
+                    StartCoroutine(FadeOutAndDisable());
+                }
             }
-
-            yield return null;
         }
-
-        // Đến waypoint cuối → dừng và tắt
-        isMoving = false;
-        if (sirenAudio != null) sirenAudio.Stop();
-        StartCoroutine(FadeOutAndDisable());
     }
 
     // =========================================================================
+    /// <summary>
+    /// Bắn 3 tia raycast phía trước trong stopDistance.
+    /// Trả về true nếu có xe cản, isPlayerAhead = true nếu xe đó là Player.
+    /// </summary>
+    private bool HasCarAhead(out bool isPlayerAhead)
+    {
+        isPlayerAhead = false;
+
+        Vector3 fwd   = transform.forward;
+        Vector3 right = transform.right;
+
+        // Bắn ray ở 3 độ cao × 3 vị trí ngang = 9 tia — bao phủ toàn bộ mặt trước xe
+        float[] heights = { 0.3f, 0.8f, 1.4f };
+        float[] laterals = { 0f, -0.8f, 0.8f };
+
+        foreach (float h in heights)
+        {
+            foreach (float lat in laterals)
+            {
+                Vector3 origin = transform.position + Vector3.up * h + right * lat;
+
+                // ~0 = tất cả layer, tránh bỏ sót xe nằm ở layer lạ
+                RaycastHit[] hits = Physics.RaycastAll(origin, fwd, stopDistance, ~0);
+                System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+                foreach (RaycastHit hit in hits)
+                {
+                    if (hit.collider.transform.root == transform) continue;
+
+                    bool isPlayer = hit.collider.CompareTag("Player") ||
+                                    hit.collider.transform.root.CompareTag("Player");
+
+                    // Bỏ qua trigger zone nhưng GIỮ trigger của xe Player
+                    if (hit.collider.isTrigger && !isPlayer) continue;
+
+                    if (isPlayer) isPlayerAhead = true;
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // ── Đèn & Coroutines ─────────────────────────────────────────────────────
     private IEnumerator FlashLightsRoutine()
     {
         bool redOn = true;
-        while (isMoving || isBlocked)
+        while (gameObject.activeSelf)
         {
             SetLights(redOn, !redOn);
             redOn = !redOn;
@@ -174,15 +232,20 @@ public class AmbulanceAI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // =========================================================================
     void OnDrawGizmos()
     {
         if (waypoints == null) return;
         Gizmos.color = Color.red;
         for (int i = 0; i < waypoints.Length - 1; i++)
-        {
             if (waypoints[i] != null && waypoints[i + 1] != null)
                 Gizmos.DrawLine(waypoints[i].position, waypoints[i + 1].position);
-        }
+
+        // Vẽ tia raycast để debug
+        if (!Application.isPlaying) return;
+        Gizmos.color = Color.yellow;
+        Vector3 origin = transform.position + Vector3.up * 0.8f;
+        Gizmos.DrawRay(origin, transform.forward * stopDistance);
+        Gizmos.DrawRay(origin - transform.right * 0.8f, transform.forward * stopDistance);
+        Gizmos.DrawRay(origin + transform.right * 0.8f, transform.forward * stopDistance);
     }
 }

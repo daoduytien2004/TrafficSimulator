@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1a0d00"/>
+      <stop offset="100%" stop-color="#0d0700"/>
+    </radialGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2a1800" stop-opacity="0.97"/>
+      <stop offset="100%" stop-color="#150c00" stop-opacity="0.97"/>
+    </linearGradient>
+    <radialGradient id="iconGrad" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#f39c12"/>
+      <stop offset="100%" stop-color="#d35400"/>
+    </radialGradient>
+    <linearGradient id="topBorder" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f39c12" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#f39c12"/>
+      <stop offset="70%" stop-color="#f39c12"/>
+      <stop offset="100%" stop-color="#f39c12" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="btnGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e67e22"/>
+      <stop offset="100%" stop-color="#a04000"/>
+    </linearGradient>
+    <filter id="orangeGlow">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="panelShadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="22" flood-color="#ff8800" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="900" height="620" fill="url(#bgGrad)"/>
+  <g opacity="0.04" stroke="#ffffff" stroke-width="1">
+    <line x1="0" y1="100" x2="900" y2="100"/><line x1="0" y1="200" x2="900" y2="200"/>
+    <line x1="0" y1="300" x2="900" y2="300"/><line x1="0" y1="400" x2="900" y2="400"/>
+    <line x1="0" y1="500" x2="900" y2="500"/>
+    <line x1="150" y1="0" x2="150" y2="620"/><line x1="300" y1="0" x2="300" y2="620"/>
+    <line x1="450" y1="0" x2="450" y2="620"/><line x1="600" y1="0" x2="600" y2="620"/>
+    <line x1="750" y1="0" x2="750" y2="620"/>
+  </g>
+
+  <!-- Panel -->
+  <rect x="150" y="60" width="600" height="500" rx="20"
+        fill="url(#panelGrad)" filter="url(#panelShadow)"/>
+  <rect x="150" y="60" width="600" height="4" rx="2" fill="url(#topBorder)"/>
+  <rect x="150" y="60" width="600" height="500" rx="20"
+        fill="none" stroke="#f39c12" stroke-width="1.5" stroke-opacity="0.4"/>
+
+  <!-- Icon đèn giao thông -->
+  <circle cx="450" cy="162" r="62" fill="#ff6600" opacity="0.1" filter="url(#orangeGlow)"/>
+  <circle cx="450" cy="162" r="50" fill="url(#iconGrad)" filter="url(#orangeGlow)"/>
+  <circle cx="450" cy="162" r="50" fill="none" stroke="#f39c12" stroke-width="2" opacity="0.7"/>
+  <!-- Thân đèn -->
+  <rect x="436" y="138" width="28" height="52" rx="8" fill="#1a1a1a"/>
+  <!-- Đèn đỏ sáng -->
+  <circle cx="450" cy="150" r="8" fill="#ff2222" filter="url(#softGlow)"/>
+  <!-- Đèn tắt -->
+  <circle cx="450" cy="164" r="8" fill="#333"/>
+  <circle cx="450" cy="178" r="8" fill="#333"/>
+  <!-- Cột -->
+  <rect x="448" y="190" width="4" height="10" fill="#888"/>
+  <!-- Mũi tên vượt -->
+  <line x1="472" y1="182" x2="494" y2="158" stroke="#ffaa00" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="494,158 484,158 494,168" fill="#ffaa00"/>
+  <!-- Vòng nháy -->
+  <circle cx="450" cy="162" r="58" fill="none" stroke="#f39c12" stroke-width="1"
+          opacity="0.25" stroke-dasharray="10,7"/>
+
+  <!-- Tiêu đề -->
+  <text x="450" y="244" text-anchor="middle"
+        fill="#f0a030" font-size="13" font-weight="600" letter-spacing="2">VI PHẠM GIAO THÔNG</text>
+  <text x="450" y="272" text-anchor="middle"
+        fill="#ffffff" font-size="26" font-weight="900"
+        letter-spacing="2" filter="url(#orangeGlow)">VƯỢT ĐÈN ĐỎ!</text>
+
+  <line x1="230" y1="286" x2="670" y2="286" stroke="#f39c12" stroke-width="1" opacity="0.3"/>
+
+  <!-- Hộp ĐIỀU 11 -->
+  <rect x="200" y="298" width="500" height="60" rx="10"
+        fill="#1a0a00" stroke="#f39c12" stroke-width="2" stroke-opacity="0.6"/>
+  <text x="450" y="316" text-anchor="middle" fill="#f0a030" font-size="11" font-weight="600" letter-spacing="1">VI PHẠM — LUẬT 36/2024/QH15</text>
+  <text x="450" y="344" text-anchor="middle"
+        fill="#ffffff" font-size="26" font-weight="900" letter-spacing="4"
+        filter="url(#orangeGlow)">ĐIỀU 11</text>
+
+  <!-- Mô tả -->
+  <text x="450" y="386" text-anchor="middle" fill="#bdc3c7" font-size="14">Tín hiệu đèn màu đỏ là cấm đi</text>
+  <text x="450" y="406" text-anchor="middle" fill="#f39c12" font-size="15" font-weight="700">Người điều khiển phải dừng trước vạch dừng</text>
+  <text x="450" y="426" text-anchor="middle" fill="#bdc3c7" font-size="14">(Khoản 3 Điều 11 — Chấp hành báo hiệu đường bộ)</text>
+
+  <!-- Mức phạt -->
+  <rect x="220" y="442" width="460" height="36" rx="8"
+        fill="#1a0f00" stroke="#f39c12" stroke-width="1" stroke-opacity="0.4"/>
+  <text x="450" y="458" text-anchor="middle"
+        fill="#f0b060" font-size="13">Mức phạt: 18.000.000 — 20.000.000 đồng  |  Trừ 4 điểm GPLX</text>
+  <text x="450" y="474" text-anchor="middle"
+        fill="#886644" font-size="11">(Điểm b khoản 9 Điều 6, Nghị định 168/2024/NĐ-CP)</text>
+
+  <!-- Nút Thử lại -->
+  <rect x="320" y="490" width="260" height="48" rx="12" fill="url(#btnGrad)"/>
+  <rect x="320" y="490" width="260" height="48" rx="12"
+        fill="none" stroke="#f39c12" stroke-width="1.5" opacity="0.5"/>
+  <text x="450" y="520" text-anchor="middle"
+        fill="white" font-size="17" font-weight="700" letter-spacing="2">THỬ LẠI  ↺</text>
+
+  <!-- Badge -->
+  <rect x="316" y="68" width="268" height="26" rx="13" fill="#c05000" opacity="0.9"/>
+  <text x="450" y="86" text-anchor="middle"
+        fill="white" font-size="12" font-weight="700" letter-spacing="1">KẾT QUẢ: VI PHẠM</text>
+
+  <!-- Scene label -->
+  <rect x="158" y="68" width="90" height="26" rx="5" fill="#f39c12" opacity="0.15"/>
+  <text x="203" y="85" text-anchor="middle"
+        fill="#f39c12" font-size="14" font-weight="700" letter-spacing="1">SCENE 06</text>
+
+  <text x="450" y="590" text-anchor="middle"
+        fill="#3a2800" font-size="12">VR Smart Traffic Instructor — Scene 6 Vi phạm Điều 11</text>
+</svg>

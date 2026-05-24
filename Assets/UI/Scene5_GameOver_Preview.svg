@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#0d0d1a"/>
+    </radialGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2a1a0a" stop-opacity="0.97"/>
+      <stop offset="100%" stop-color="#150d05" stop-opacity="0.97"/>
+    </linearGradient>
+    <radialGradient id="iconGrad" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#e67e22"/>
+      <stop offset="100%" stop-color="#a04000"/>
+    </radialGradient>
+    <linearGradient id="topBorder" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e74c3c" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#e74c3c"/>
+      <stop offset="70%" stop-color="#e74c3c"/>
+      <stop offset="100%" stop-color="#e74c3c" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="redGlow">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="orangeGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="panelShadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="20" flood-color="#e74c3c" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="620" fill="url(#bgGrad)"/>
+  <g opacity="0.04" stroke="#ffffff" stroke-width="1">
+    <line x1="0" y1="100" x2="900" y2="100"/><line x1="0" y1="200" x2="900" y2="200"/>
+    <line x1="0" y1="300" x2="900" y2="300"/><line x1="0" y1="400" x2="900" y2="400"/>
+    <line x1="0" y1="500" x2="900" y2="500"/>
+    <line x1="150" y1="0" x2="150" y2="620"/><line x1="300" y1="0" x2="300" y2="620"/>
+    <line x1="450" y1="0" x2="450" y2="620"/><line x1="600" y1="0" x2="600" y2="620"/>
+    <line x1="750" y1="0" x2="750" y2="620"/>
+  </g>
+
+  <!-- Panel chính -->
+  <rect x="150" y="55" width="600" height="510" rx="20" fill="url(#panelGrad)" filter="url(#panelShadow)"/>
+  <rect x="150" y="55" width="600" height="4" rx="2" fill="url(#topBorder)"/>
+  <rect x="150" y="55" width="600" height="510" rx="20" fill="none" stroke="#e74c3c" stroke-width="1" stroke-opacity="0.4"/>
+
+  <!-- Label góc -->
+  <rect x="310" y="63" width="280" height="26" rx="13" fill="#c0392b" opacity="0.9"/>
+  <text x="450" y="81" text-anchor="middle" fill="white" font-size="12" font-weight="700" letter-spacing="1">VI PHẠM — BẤM CÒI SAI MỤC ĐÍCH</text>
+  <rect x="158" y="63" width="90" height="26" rx="5" fill="#e74c3c" opacity="0.15"/>
+  <text x="203" y="80" text-anchor="middle" fill="#e74c3c" font-size="14" font-weight="700" letter-spacing="1">SCENE 05</text>
+
+  <!-- Icon cảnh báo -->
+  <circle cx="450" cy="165" r="58" fill="#e74c3c" opacity="0.1" filter="url(#redGlow)"/>
+  <circle cx="450" cy="165" r="48" fill="url(#iconGrad)" filter="url(#orangeGlow)"/>
+  <circle cx="450" cy="165" r="48" fill="none" stroke="#e67e22" stroke-width="2" opacity="0.7"/>
+  <!-- Tam giác cảnh báo -->
+  <polygon points="450,138 428,178 472,178" fill="none" stroke="white" stroke-width="3" stroke-linejoin="round"/>
+  <line x1="450" y1="150" x2="450" y2="167" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="450" cy="173" r="2.5" fill="white"/>
+  <!-- Sóng còi -->
+  <g fill="none" stroke="#e67e22" stroke-width="1.5" opacity="0.6">
+    <path d="M 392 152 Q 380 165 392 178"/>
+    <path d="M 384 145 Q 366 165 384 185"/>
+    <path d="M 508 152 Q 520 165 508 178"/>
+    <path d="M 516 145 Q 534 165 516 185"/>
+  </g>
+
+  <!-- Tiêu đề vi phạm -->
+  <text x="450" y="243" text-anchor="middle" fill="#e74c3c" font-size="20" font-weight="700" letter-spacing="2" filter="url(#redGlow)">BẠN ĐÃ LÀM PHIỀN CẢ KHU PHỐ!</text>
+  <line x1="230" y1="257" x2="670" y2="257" stroke="#e74c3c" stroke-width="1" opacity="0.25"/>
+
+  <!-- Thống kê ảnh hưởng -->
+  <rect x="200" y="265" width="500" height="90" rx="10" fill="#1a0d05" stroke="#e67e22" stroke-width="1" stroke-opacity="0.4"/>
+  <!-- Icon người -->
+  <text x="230" y="295" fill="#e67e22" font-size="22">👥</text>
+  <text x="260" y="293" fill="#ecf0f1" font-size="14" font-weight="600">Bấm còi</text>
+  <text x="333" y="293" fill="#e74c3c" font-size="14" font-weight="900"> 3 LẦN</text>
+  <text x="393" y="293" fill="#ecf0f1" font-size="14" font-weight="600"> — ước tính</text>
+  <text x="497" y="293" fill="#e74c3c" font-size="14" font-weight="900"> 36 người</text>
+  <text x="590" y="293" fill="#ecf0f1" font-size="14"> bị ảnh hưởng</text>
+  <text x="230" y="320" fill="#f39c12" font-size="13">⚡</text>
+  <text x="252" y="320" fill="#bdc3c7" font-size="13">Tiếng còi ban đêm có thể đạt</text>
+  <text x="481" y="320" fill="#e74c3c" font-size="13" font-weight="700"> 100 dB</text>
+  <text x="533" y="320" fill="#bdc3c7" font-size="13"> — tương đương khoan tường</text>
+  <text x="230" y="344" fill="#f39c12" font-size="13">🏘</text>
+  <text x="252" y="344" fill="#bdc3c7" font-size="13">Gây ô nhiễm tiếng ồn, ảnh hưởng sức khoẻ cộng đồng</text>
+
+  <!-- Điều luật vi phạm -->
+  <rect x="200" y="365" width="500" height="80" rx="10" fill="#1a0505" stroke="#e74c3c" stroke-width="1.5" stroke-opacity="0.6"/>
+  <text x="450" y="383" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="600" opacity="0.9">CƠ SỞ PHÁP LÝ — LUẬT 36/2024/QH15</text>
+  <text x="222" y="408" fill="#ffffff" font-size="22" font-weight="900" letter-spacing="2" filter="url(#redGlow)">ĐIỀU 8</text>
+  <text x="318" y="408" fill="#bdc3c7" font-size="13"> — Hành vi bị nghiêm cấm trong giao thông</text>
+  <text x="222" y="432" fill="#e74c3c" font-size="12" font-weight="600">Khoản 5:</text>
+  <text x="290" y="432" fill="#bdc3c7" font-size="12"> Bấm còi inh ỏi, gây ô nhiễm tiếng ồn khu dân cư</text>
+
+  <!-- Mức phạt -->
+  <rect x="200" y="454" width="500" height="36" rx="8" fill="#200a0a" stroke="#c0392b" stroke-width="1" stroke-opacity="0.5"/>
+  <text x="222" y="477" fill="#f39c12" font-size="13" font-weight="700">Mức phạt:</text>
+  <text x="310" y="477" fill="#ecf0f1" font-size="13"> 400.000 – 600.000 đồng</text>
+  <text x="530" y="477" fill="#bdc3c7" font-size="12"> (NĐ 168/2024)</text>
+
+  <!-- Nút thử lại -->
+  <rect x="200" y="500" width="500" height="42" rx="10" fill="#0a1a0a" stroke="#2ecc71" stroke-width="2" stroke-opacity="0.8"/>
+  <rect x="200" y="500" width="500" height="42" rx="10" fill="none" stroke="#2ecc71" stroke-width="1" stroke-opacity="0.3" stroke-dasharray="8,6"/>
+  <rect x="218" y="508" width="28" height="26" rx="5" fill="#1a2e1a" stroke="#2ecc71" stroke-width="2"/>
+  <text x="232" y="526" text-anchor="middle" fill="#2ecc71" font-size="15" font-weight="900">1</text>
+  <text x="390" y="524" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="700" letter-spacing="1">Bấm 1 để thử lại</text>
+  <text x="648" y="525" text-anchor="middle" fill="#2ecc71" font-size="18">↺</text>
+
+  <!-- Footer -->
+  <text x="450" y="592" text-anchor="middle" fill="#4a5568" font-size="12">VR Smart Traffic Instructor — Scene 5 Violation Panel</text>
+</svg>
