@@ -16,8 +16,8 @@ public class VR_CarController : MonoBehaviour
 
     [Header("Gắn UI Hướng dẫn, Taplo & Tai Nạn")]
     public TextMeshProUGUI gearDisplay;
-    public TextMeshProUGUI speedDisplay; // Hiển thị "Vận tốc / Giới hạn"
-    public Slider speedSlider; // Thanh kim đồng hồ/thanh trượt vận tốc
+    public TextMeshProUGUI speedDisplay;
+    public Slider speedSlider;
     public GameObject tutorialPanel;
     public GameObject wrongWayPanel;
     public GameObject accidentPanel;
@@ -26,8 +26,19 @@ public class VR_CarController : MonoBehaviour
     public GameObject ranRedPanel; // Panel hiện ra khi vượt đèn đỏ
     public float resetDelay = 3f;
 
+    [Header("Cài đặt Phạt Đè Vạch")]
+    public GameObject lineWarningPanel;
+    public TextMeshProUGUI lineWarningText;
+    public GameObject lineLossPanel;
+    private int solidLineViolationCount = 0;
+    private bool isCurrentlyOnLine = false;
+
+    // --- BÌNH MỚI: BỘ ĐẾM THỜI GIAN ÂN HẠN ĐỂ KHÔNG BỊ PHẠT ĐÚP ---
+    private float lineCooldownTimer = 0f;
+    // --------------------------------------------------------------
+
     [Header("Tốc độ Giới hạn")]
-    public float currentSpeedLimit = 0f; // 0 nghĩa là chưa đi qua vùng giới hạn nào
+    public float currentSpeedLimit = 0f;
 
     [Header("Gắn nút trên tay cầm VR")]
     public InputActionReference buttonD;
@@ -50,14 +61,13 @@ public class VR_CarController : MonoBehaviour
     public Transform rightMirror;
 
     [Header("Âm thanh Tai nạn")]
-    public AudioSource crashAudioSource; // Loa phát tiếng đâm xe
+    public AudioSource crashAudioSource;
 
     [Header("xin nhan")]
-    // --- BÌNH MỚI: BIẾN CHO ĐÈN VÀ TIẾNG XI-NHAN ---
-    public GameObject leftSignalLight;  // Gắn đèn mũi tên trái
-    public GameObject rightSignalLight; // Gắn đèn mũi tên phải
-    public AudioSource signalAudio;     // Gắn cái Loa tiếng "tạch"
-    public float blinkInterval = 0.5f;  // Tốc độ nhấp nháy (0.5 giây)
+    public GameObject leftSignalLight;
+    public GameObject rightSignalLight;
+    public AudioSource signalAudio;
+    public float blinkInterval = 0.5f;
 
     public bool isLeftSignalOn = false;
     public bool isRightSignalOn = false;
@@ -66,7 +76,6 @@ public class VR_CarController : MonoBehaviour
 
     private float blinkTimer = 0f;
     private bool isLightOn = false;
-    // ----------------------------------------------
 
     private string currentGear = "N";
     private float currentSpeed = 0f;
@@ -80,7 +89,6 @@ public class VR_CarController : MonoBehaviour
         if (accidentPanel != null) accidentPanel.SetActive(false);
         if (engineAudio != null && startupClip != null && idleClip != null) StartCoroutine(StartEngineRoutine());
 
-        // Đảm bảo đèn tắt lúc mới vào game
         if (leftSignalLight != null) leftSignalLight.SetActive(false);
         if (rightSignalLight != null) rightSignalLight.SetActive(false);
     }
@@ -102,25 +110,27 @@ public class VR_CarController : MonoBehaviour
     {
         if (isCrashed) return;
 
-        // -- BẬT TẮT XIN NHAN BẰNG PHÍM (Có logic tắt trừ chéo) --
+        // --- CHẠY BỘ ĐẾM THỜI GIAN ÂN HẠN ĐÈ VẠCH ---
+        if (lineCooldownTimer > 0)
+        {
+            lineCooldownTimer -= Time.deltaTime;
+        }
+        // --------------------------------------------
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             isLeftSignalOn = !isLeftSignalOn;
-            if (isLeftSignalOn) isRightSignalOn = false; // Bật trái thì tự tắt phải
+            if (isLeftSignalOn) isRightSignalOn = false;
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
             isRightSignalOn = !isRightSignalOn;
-            if (isRightSignalOn) isLeftSignalOn = false; // Bật phải thì tự tắt trái
+            if (isRightSignalOn) isLeftSignalOn = false;
         }
 
-        // -- CHẠY HIỆU ỨNG NHẤP NHÁY & ÂM THANH --
         HandleTurnSignals();
-
-        // -- CHECK NHÌN GƯƠNG --
         CheckLookingAtMirrors();
 
-        // -- LOGIC LÁI XE --
         if ((buttonD != null && buttonD.action.WasPressedThisFrame()) || Input.GetKeyDown(KeyCode.Alpha2)) SetGearD();
         if ((buttonR != null && buttonR.action.WasPressedThisFrame()) || Input.GetKeyDown(KeyCode.Alpha3)) SetGearR();
         if ((buttonN != null && buttonN.action.WasPressedThisFrame()) || Input.GetKeyDown(KeyCode.Alpha1)) SetGearN();
@@ -158,29 +168,24 @@ public class VR_CarController : MonoBehaviour
 
         currentSpeed = Mathf.Clamp(currentSpeed, 0f, maxSpeed);
 
-        // --- CẬP NHẬT THANH SLIDER ĐỒNG HỒ ---
         if (speedSlider != null)
         {
             speedSlider.maxValue = maxSpeed;
             speedSlider.value = currentSpeed;
         }
 
-        // --- CẬP NHẬT HIỂN THỊ TỐC ĐỘ / GIỚI HẠN ---
         if (speedDisplay != null)
         {
             int displaySpeedKmH = Mathf.RoundToInt(currentSpeed);
-            
+
             if (currentSpeedLimit > 0)
             {
-                // Đã vào vùng giới hạn tốc độ
                 speedDisplay.text = $"{displaySpeedKmH} / {Mathf.RoundToInt(currentSpeedLimit)} km/h";
 
-                // Thất bại nếu vượt 5km/h
                 if (displaySpeedKmH >= currentSpeedLimit + 5)
                 {
                     TriggerSpeedingFailure();
                 }
-                // Đổi màu đỏ nếu vượt tốc độ nhưng chưa tới 5km/h
                 else if (displaySpeedKmH > currentSpeedLimit)
                 {
                     speedDisplay.color = Color.red;
@@ -192,7 +197,6 @@ public class VR_CarController : MonoBehaviour
             }
             else
             {
-                // Chưa có giới hạn, chỉ hiển thị vận tốc hiện tại
                 speedDisplay.text = $"{displaySpeedKmH} km/h";
                 speedDisplay.color = Color.white;
             }
@@ -217,14 +221,13 @@ public class VR_CarController : MonoBehaviour
         }
     }
 
-    // --- HÀM XỬ LÝ NHẤP NHÁY XI-NHAN ---
+    // --- CÁC HÀM XỬ LÝ VI PHẠM & TAI NẠN ---
 
     private void TriggerSpeedingFailure()
     {
         if (isCrashed) return;
         isCrashed = true;
 
-        // Bật panel phạt tốc độ (nếu chưa gán thì bật tạm panel tai nạn)
         if (speedingFailPanel != null) speedingFailPanel.SetActive(true);
         else if (accidentPanel != null) accidentPanel.SetActive(true);
 
@@ -267,33 +270,93 @@ public class VR_CarController : MonoBehaviour
         Time.timeScale = 0f;
         StartCoroutine(ResetGameRoutine());
     }
+
+    public void TriggerWrongWay()
+    {
+        if (isCrashed) return;
+        isCrashed = true;
+
+        if (wrongWayPanel != null) wrongWayPanel.SetActive(true);
+
+        if (gasAudio != null) gasAudio.Stop();
+        if (brakeAudio != null) brakeAudio.Stop();
+        if (engineAudio != null) engineAudio.Stop();
+
+        Time.timeScale = 0f;
+        StartCoroutine(ResetGameRoutine());
+    }
+
+    // --- HÀM XỬ LÝ ĐÈ VẠCH LIỀN ĐÃ ĐƯỢC NÂNG CẤP ---
+    public void TriggerSolidLineViolation()
+    {
+        if (isCrashed || isCurrentlyOnLine || lineCooldownTimer > 0f) return;
+
+        isCurrentlyOnLine = true;
+        solidLineViolationCount++;
+        lineCooldownTimer = 3f;
+
+        if (lineWarningText != null)
+        {
+            lineWarningText.text = "Đè vạch liền: " + solidLineViolationCount + "/3";
+        }
+
+        if (solidLineViolationCount >= 3)
+        {
+            isCrashed = true;
+
+            if (lineLossPanel != null) lineLossPanel.SetActive(true);
+            if (lineWarningPanel != null) lineWarningPanel.SetActive(false);
+
+            if (gasAudio != null) gasAudio.Stop();
+            if (brakeAudio != null) brakeAudio.Stop();
+            if (engineAudio != null) engineAudio.Stop();
+
+            Time.timeScale = 0f;
+            StartCoroutine(ResetGameRoutine());
+        }
+        else
+        {
+            StopCoroutine("ShowLineWarningRoutine");
+            StartCoroutine(ShowLineWarningRoutine());
+        }
+    }
+
+    IEnumerator ShowLineWarningRoutine()
+    {
+        if (lineWarningPanel != null) lineWarningPanel.SetActive(true);
+        yield return new WaitForSecondsRealtime(2f);
+        if (lineWarningPanel != null) lineWarningPanel.SetActive(false);
+    }
+
+    public void ResetLineTouch()
+    {
+        isCurrentlyOnLine = false;
+    }
+    // ----------------------------------------
+
     void HandleTurnSignals()
     {
-        // Nếu có bật 1 trong 2 bên
         if (isLeftSignalOn || isRightSignalOn)
         {
-            blinkTimer += Time.deltaTime; // Bộ đếm thời gian chạy
+            blinkTimer += Time.deltaTime;
 
-            // Đủ 0.5 giây thì đảo trạng thái đèn (Bật thành Tắt, Tắt thành Bật)
             if (blinkTimer >= blinkInterval)
             {
-                blinkTimer = 0f; // Reset đếm lại
+                blinkTimer = 0f;
                 isLightOn = !isLightOn;
 
-                // Nếu đèn vừa Bật sáng -> Phát tiếng "Tạch"
                 if (isLightOn && signalAudio != null)
                 {
                     signalAudio.Play();
                 }
             }
         }
-        else // Nếu tắt cả 2 xi-nhan
+        else
         {
             isLightOn = false;
             blinkTimer = 0f;
         }
 
-        // Áp dụng trạng thái tắt/bật cho đúng cái bóng đèn đang được chọn
         if (leftSignalLight != null) leftSignalLight.SetActive(isLeftSignalOn && isLightOn);
         if (rightSignalLight != null) rightSignalLight.SetActive(isRightSignalOn && isLightOn);
     }
@@ -332,7 +395,6 @@ public class VR_CarController : MonoBehaviour
 
         if (crashAudioSource != null) crashAudioSource.Play();
 
-        // Bị tai nạn thì tắt hết luôn xi nhan và tiếng
         isLeftSignalOn = false;
         isRightSignalOn = false;
         if (leftSignalLight != null) leftSignalLight.SetActive(false);
@@ -342,7 +404,6 @@ public class VR_CarController : MonoBehaviour
         if (brakeAudio != null) brakeAudio.Stop();
         if (engineAudio != null) engineAudio.Stop();
 
-        // If it's a pedestrian, display the crosswalk fail explanation panel if available
         if (isPedestrian && crosswalkFailPanel != null)
         {
             crosswalkFailPanel.SetActive(true);
@@ -360,7 +421,7 @@ public class VR_CarController : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(resetDelay);
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void SetGearN() { currentGear = "N"; UpdateGearDisplay(); }
@@ -376,25 +437,5 @@ public class VR_CarController : MonoBehaviour
             else if (currentGear == "R") gearDisplay.color = Color.red;
             else gearDisplay.color = Color.white;
         }
-    }
-
-    // HÀM GỌI KHI ĐI SAI ĐƯỜNG
-    public void TriggerWrongWay()
-    {
-        if (isCrashed) return; // Nếu đang bị tai nạn rồi thì thôi không báo sai đường nữa
-
-        isCrashed = true; // Khóa điều khiển xe lại
-
-        // Hiện bảng báo sai đường
-        if (wrongWayPanel != null) wrongWayPanel.SetActive(true);
-
-        // Tắt hết âm thanh động cơ
-        if (gasAudio != null) gasAudio.Stop();
-        if (brakeAudio != null) brakeAudio.Stop();
-        if (engineAudio != null) engineAudio.Stop();
-
-        // Dừng thời gian và khởi động lại game
-        Time.timeScale = 0f;
-        StartCoroutine(ResetGameRoutine());
     }
 }
