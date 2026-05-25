@@ -200,13 +200,36 @@ public class VR_CarController_Scene6 : MonoBehaviour
     // =========================================================================
     void OnCollisionEnter(Collision collision)
     {
-        if (isCrashed) return;
-        if (collision.gameObject.CompareTag("Road")) return;
-        if (currentSpeed < 2f && !collision.gameObject.CompareTag("EnemyMoto")) return;
+        string hitName = collision.gameObject.name;
+        string hitTag  = collision.gameObject.tag;
+        Vector3 pos    = transform.position;
+
+        if (isCrashed)
+        {
+            Debug.Log($"[Scene6][Collision] BỎ QUA — đã crashed trước đó | đối tượng: {hitName} (tag={hitTag})");
+            return;
+        }
+        if (collision.gameObject.CompareTag("Road"))
+        {
+            Debug.Log($"[Scene6][Collision] BỎ QUA — tag Road | đối tượng: {hitName}");
+            return;
+        }
+        if (currentSpeed < 2f && !collision.gameObject.CompareTag("EnemyMoto"))
+        {
+            Debug.Log($"[Scene6][Collision] BỎ QUA — tốc độ quá thấp ({currentSpeed:F1} km/h) | đối tượng: {hitName} (tag={hitTag})");
+            return;
+        }
 
         // Bị đâm từ phía sau (xe cứu thương tiến vào) → không tính tai nạn
         Vector3 contactNormal = collision.GetContact(0).normal;
-        if (Vector3.Dot(transform.forward, contactNormal) > 0.5f) return;
+        float dotFwd = Vector3.Dot(transform.forward, contactNormal);
+        if (dotFwd > 0.5f)
+        {
+            Debug.Log($"[Scene6][Collision] BỎ QUA — va chạm từ phía sau (dot={dotFwd:F2}) | đối tượng: {hitName} (tag={hitTag}) | tốc độ: {currentSpeed:F1} km/h");
+            return;
+        }
+
+        Debug.LogWarning($"[Scene6][Collision] TAI NẠN — đối tượng: {hitName} (tag={hitTag}) | tốc độ: {currentSpeed:F1} km/h | vị trí: {pos} | contactNormal: {contactNormal} | dot: {dotFwd:F2}");
 
         isCrashed = true;
         if (crashAudioSource != null) crashAudioSource.Play();

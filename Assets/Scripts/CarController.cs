@@ -110,6 +110,12 @@ public class VR_CarController : MonoBehaviour
     {
         if (isCrashed) return;
 
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            if (tutorialPanel != null && tutorialPanel.activeSelf)
+                tutorialPanel.SetActive(false);
+        }
+
         // --- CHẠY BỘ ĐẾM THỜI GIAN ÂN HẠN ĐÈ VẠCH ---
         if (lineCooldownTimer > 0)
         {

@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#071a12"/>
+      <stop offset="100%" stop-color="#030d08"/>
+    </radialGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0c2218" stop-opacity="0.98"/>
+      <stop offset="100%" stop-color="#051410" stop-opacity="0.98"/>
+    </linearGradient>
+    <linearGradient id="accentLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#16a085" stop-opacity="0"/>
+      <stop offset="20%" stop-color="#1abc9c"/>
+      <stop offset="80%" stop-color="#1abc9c"/>
+      <stop offset="100%" stop-color="#16a085" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="iconBg" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#1abc9c"/>
+      <stop offset="100%" stop-color="#0e6655"/>
+    </radialGradient>
+    <radialGradient id="iconGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1abc9c" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#1abc9c" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glowSoft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="10" stdDeviation="25" flood-color="#1abc9c" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <rect width="900" height="660" fill="url(#bgGrad)"/>
+  <g opacity="0.035" stroke="#7fd8c0" stroke-width="1">
+    <line x1="0" y1="110" x2="900" y2="110"/><line x1="0" y1="220" x2="900" y2="220"/>
+    <line x1="0" y1="330" x2="900" y2="330"/><line x1="0" y1="440" x2="900" y2="440"/>
+    <line x1="0" y1="550" x2="900" y2="550"/>
+    <line x1="180" y1="0" x2="180" y2="660"/><line x1="360" y1="0" x2="360" y2="660"/>
+    <line x1="540" y1="0" x2="540" y2="660"/><line x1="720" y1="0" x2="720" y2="660"/>
+  </g>
+  <circle cx="165" cy="70" r="3" fill="#1abc9c" opacity="0.4"/>
+  <circle cx="735" cy="70" r="3" fill="#1abc9c" opacity="0.4"/>
+
+  <rect x="145" y="50" width="610" height="560" rx="22" fill="url(#panelGrad)" filter="url(#shadow)"/>
+  <rect x="145" y="50" width="610" height="4" rx="2" fill="url(#accentLine)"/>
+  <rect x="145" y="50" width="610" height="560" rx="22" fill="none" stroke="#1abc9c" stroke-width="1.2" stroke-opacity="0.25"/>
+  <rect x="152" y="57" width="596" height="546" rx="18" fill="none" stroke="#1abc9c" stroke-width="0.5" stroke-opacity="0.1"/>
+
+  <rect x="285" y="58" width="330" height="28" rx="14" fill="#0e5243" opacity="0.95"/>
+  <text x="450" y="77" text-anchor="middle" fill="#76d7c4" font-size="12" font-weight="700" letter-spacing="1.5">NHƯỜNG ĐƯỜNG CHO NGƯỜI ĐI BỘ</text>
+  <rect x="153" y="58" width="95" height="28" rx="6" fill="#0d3028"/>
+  <rect x="153" y="58" width="95" height="28" rx="6" fill="none" stroke="#1abc9c" stroke-width="1" stroke-opacity="0.5"/>
+  <text x="200" y="77" text-anchor="middle" fill="#1abc9c" font-size="13" font-weight="800" letter-spacing="1">SCENE 02</text>
+
+  <!-- Icon -->
+  <circle cx="450" cy="172" r="70" fill="url(#iconGlow)"/>
+  <circle cx="450" cy="172" r="55" fill="url(#iconBg)" filter="url(#glowSoft)"/>
+  <circle cx="450" cy="172" r="55" fill="none" stroke="#1abc9c" stroke-width="1.5" stroke-opacity="0.5"/>
+  <circle cx="450" cy="172" r="65" fill="none" stroke="#1abc9c" stroke-width="0.8" stroke-opacity="0.15" stroke-dasharray="5,5"/>
+  <g opacity="0.85">
+    <rect x="420" y="188" width="60" height="7" rx="1" fill="white" opacity="0.9"/>
+    <rect x="420" y="180" width="60" height="5" rx="1" fill="white" opacity="0.5"/>
+    <rect x="420" y="174" width="60" height="4" rx="1" fill="white" opacity="0.25"/>
+  </g>
+  <circle cx="450" cy="145" r="8" fill="white"/>
+  <line x1="450" y1="153" x2="450" y2="174" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="450" y1="160" x2="438" y2="169" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="450" y1="160" x2="462" y2="169" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="450" y1="174" x2="441" y2="188" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="450" y1="174" x2="459" y2="188" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="468" y1="164" x2="482" y2="164" stroke="#1abc9c" stroke-width="2.5" opacity="0.9" filter="url(#glowSoft)"/>
+  <polygon points="480,160 487,164 480,168" fill="#1abc9c" opacity="0.9" filter="url(#glowSoft)"/>
+
+  <text x="450" y="258" text-anchor="middle" fill="#1abc9c" font-size="19.5" font-weight="800" letter-spacing="2" filter="url(#glowSoft)">NHƯỜNG ĐƯỜNG — ƯU TIÊN CHO NGƯỜI ĐI BỘ</text>
+  <line x1="220" y1="270" x2="680" y2="270" stroke="url(#accentLine)" stroke-width="1"/>
+
+  <!-- Mục 1 -->
+  <rect x="190" y="284" width="32" height="32" rx="8" fill="#2a0a0a" stroke="#e74c3c" stroke-width="1.5"/>
+  <circle cx="206" cy="300" r="8" fill="#e74c3c" filter="url(#glowSoft)"/>
+  <rect x="234" y="284" width="430" height="32" rx="8" fill="#180808" stroke="#c0392b" stroke-width="0.8" stroke-opacity="0.4"/>
+  <text x="252" y="305" fill="#f5b7b1" font-size="13.5">
+    <tspan font-weight="600">Dừng trước </tspan><tspan fill="#e74c3c" font-weight="700">vạch dừng</tspan><tspan font-weight="600"> khi đèn đỏ bật sáng</tspan>
+  </text>
+
+  <!-- Mục 2 -->
+  <rect x="190" y="326" width="32" height="32" rx="8" fill="#0c2e1e" stroke="#1abc9c" stroke-width="1.5"/>
+  <text x="206" y="347" text-anchor="middle" fill="#1abc9c" font-size="15" font-weight="900">↓</text>
+  <rect x="234" y="326" width="430" height="32" rx="8" fill="#071e12" stroke="#16a085" stroke-width="0.8" stroke-opacity="0.4"/>
+  <text x="252" y="347" fill="#a9dfbf" font-size="13.5">
+    <tspan font-weight="600">Giảm tốc độ khi </tspan><tspan fill="#1abc9c" font-weight="700">người đang qua đường</tspan>
+  </text>
+
+  <!-- Mục 3 -->
+  <rect x="190" y="368" width="32" height="32" rx="8" fill="#1a2a0a" stroke="#f39c12" stroke-width="1.5"/>
+  <text x="206" y="389" text-anchor="middle" fill="#f39c12" font-size="14" font-weight="900">!</text>
+  <rect x="234" y="368" width="430" height="32" rx="8" fill="#151208" stroke="#d4a017" stroke-width="0.8" stroke-opacity="0.4"/>
+  <text x="252" y="389" fill="#a9dfbf" font-size="13.5">
+    <tspan font-weight="600">Đèn xanh bật — nhưng </tspan><tspan fill="#f39c12" font-weight="700">vẫn phải nhường đường</tspan>
+  </text>
+
+  <!-- Mục 4 -->
+  <rect x="190" y="410" width="32" height="32" rx="8" fill="#0c2e1e" stroke="#2ecc71" stroke-width="1.5"/>
+  <text x="206" y="431" text-anchor="middle" fill="#2ecc71" font-size="15" font-weight="900">✓</text>
+  <rect x="234" y="410" width="430" height="32" rx="8" fill="#071e0f" stroke="#1e8449" stroke-width="0.8" stroke-opacity="0.4"/>
+  <text x="252" y="431" fill="#a9dfbf" font-size="13.5">
+    <tspan font-weight="600">Chờ người </tspan><tspan fill="#2ecc71" font-weight="700">qua hết đường</tspan><tspan font-weight="600"> rồi mới tiến</tspan>
+  </text>
+
+  <!-- Hộp điều luật -->
+  <rect x="190" y="456" width="520" height="62" rx="12" fill="#040e0a" stroke="#1abc9c" stroke-width="1.5" stroke-opacity="0.45"/>
+  <rect x="190" y="456" width="4" height="62" rx="2" fill="#1abc9c" opacity="0.9"/>
+  <text x="450" y="475" text-anchor="middle" fill="#76d7c4" font-size="11" font-weight="700" letter-spacing="1.5">CƠ SỞ PHÁP LÝ — LUẬT 36/2024/QH15</text>
+  <text x="225" y="492" fill="white" font-size="19" font-weight="900" letter-spacing="2" filter="url(#glowSoft)">ĐIỀU 11</text>
+  <text x="314" y="492" fill="#85c1a8" font-size="13"> Chấp hành báo hiệu đường bộ</text>
+  <text x="225" y="511" fill="white" font-size="19" font-weight="900" letter-spacing="2" filter="url(#glowSoft)">ĐIỀU 30</text>
+  <text x="314" y="511" fill="#85c1a8" font-size="13"> Quyền và nghĩa vụ của người đi bộ</text>
+
+  <!-- Nút bắt đầu -->
+  <rect x="190" y="532" width="520" height="48" rx="12" fill="#07150a" stroke="#2ecc71" stroke-width="2" stroke-opacity="0.7"/>
+  <rect x="190" y="532" width="520" height="48" rx="12" fill="none" stroke="#2ecc71" stroke-width="1" stroke-opacity="0.2" stroke-dasharray="10,6"/>
+  <rect x="210" y="542" width="32" height="28" rx="7" fill="#0d2e12" stroke="#2ecc71" stroke-width="2"/>
+  <text x="226" y="561" text-anchor="middle" fill="#2ecc71" font-size="16" font-weight="900">1</text>
+  <text x="454" y="562" text-anchor="middle" fill="white" font-size="15" font-weight="700" letter-spacing="1">Nhấn 1 khi sẵn sàng bắt đầu</text>
+  <text x="686" y="562" text-anchor="middle" fill="#2ecc71" font-size="22" filter="url(#glowSoft)">▶</text>
+
+  <text x="450" y="628" text-anchor="middle" fill="#1a4030" font-size="12">VR Smart Traffic Instructor — Scene 2 · Nhường đường người đi bộ</text>
+</svg>

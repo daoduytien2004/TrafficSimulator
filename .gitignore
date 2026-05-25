@@ -22,5 +22,7 @@ MemoryCaptures/
 .DS_Store
 Thumbs.db
 *.unitypackage
-*.fbx
+*.fbx\
+!Assets/Fantastic City Generator/Objects/Others/AMBULANCE.fbx
+!Assets/Object/scene6/AMBULANCE.fbx
 *.tga
