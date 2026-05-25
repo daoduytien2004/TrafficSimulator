@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using FCG;
 
 public class PedestrianCrosswalkScenario : MonoBehaviour
 {
@@ -10,18 +11,24 @@ public class PedestrianCrosswalkScenario : MonoBehaviour
     public float walkSpeed = 2.5f;           // Tốc độ đi bộ
     public Vector3 rotationOffset = new Vector3(0, 0, 0); // Bù trừ góc xoay nếu model đi lùi (vd: Y=180)
 
-    [Header("Cảm biến xe lại gần")]
-    public float triggerDistance = 30f;      // Xe cách vạch 30m thì người bắt đầu bước xuống đường
+    [Header("Cài đặt Đèn Giao Thông (Tuỳ chọn)")]
+    public TrafficLight trafficLight;        // Kéo Đèn Giao Thông vào đây để tự động hoá
+    
+    [Header("Cảm biến xe lại gần (Fallback)")]
+    public float triggerDistance = 30f;      // Xe cách vạch 30m thì người bắt đầu bước xuống đường (khi không gán đèn)
 
     [Header("Tín hiệu AR (Tuỳ chọn)")]
     public GameObject arWarningLight;        
     public GameObject arSafeLight;           
 
-    public bool isPedestrianCrossing = false; 
+        public bool isPedestrianCrossing = false; 
     private VR_CarController car;
     private bool hasFinishedCrossing = false;
     private bool isWalking = false;
     private Animator[] pedAnims;
+
+    private float lastProjection = 0f;
+    private bool projectionInitialized = false;
 
     void Start()
     {
@@ -55,8 +62,20 @@ public class PedestrianCrosswalkScenario : MonoBehaviour
 
         float distToCrosswalk = Vector3.Distance(transform.position, car.transform.position);
 
-        // Kích hoạt người đi bộ bước qua đường khi xe chạy tới gần
-        if (!isWalking && distToCrosswalk <= triggerDistance)
+        // Kích hoạt người đi bộ bước qua đường
+        bool shouldStartCrossing = false;
+        if (trafficLight != null)
+        {
+            // Có đèn giao thông: người dân qua đường khi ĐÈN ĐỎ VÀ XE ĐÃ ĐẾN GẦN (để tránh đi xong trước khi xe kịp tới)
+            shouldStartCrossing = !isWalking && !hasFinishedCrossing && trafficLight.Red.activeSelf && distToCrosswalk <= triggerDistance;
+        }
+        else
+        {
+            // Không có đèn giao thông: người dân qua đường khi xe đến gần (logic cũ)
+            shouldStartCrossing = !isWalking && distToCrosswalk <= triggerDistance;
+        }
+
+        if (shouldStartCrossing)
         {
             isWalking = true;
             isPedestrianCrossing = true; // Trạng thái: cấm xe đi qua
@@ -68,6 +87,59 @@ public class PedestrianCrosswalkScenario : MonoBehaviour
                 {
                     anim.enabled = true; // Bật não để vung tay chân
                 }
+            }
+        }
+
+        // HỆ THỐNG PHÁT HIỆN LẠNG LÁCH / VƯỢT QUA VẠCH KHI ĐÈN ĐỎ HOẶC NGƯỜI ĐANG QUA ĐƯỜNG
+        bool isCrossingForbidden = false;
+        if (trafficLight != null)
+        {
+            isCrossingForbidden = trafficLight.Red.activeSelf; // Đèn đỏ = cấm vượt qua vạch kẻ
+        }
+        else
+        {
+            isCrossingForbidden = isPedestrianCrossing; // Không có đèn = cấm vượt khi người đang đi
+        }
+
+        if (isCrossingForbidden && startPoint != null && endPoint != null)
+        {
+            // Vector dọc theo vạch kẻ đường (từ điểm xuất phát sang điểm đích)
+            Vector3 crosswalkVec = endPoint.position - startPoint.position;
+            crosswalkVec.y = 0f;
+            crosswalkVec.Normalize();
+
+            // Vector vuông góc với vạch kẻ đường = Hướng đi của đường lộ
+            Vector3 roadDir = new Vector3(-crosswalkVec.z, 0f, crosswalkVec.x);
+
+            // Vector từ vạch kẻ đường tới xe
+            Vector3 crosswalkToCar = car.transform.position - transform.position;
+            crosswalkToCar.y = 0f;
+
+            // Chiếu vị trí xe lên hướng đường lộ
+            float currentProjection = Vector3.Dot(crosswalkToCar, roadDir);
+
+            if (!projectionInitialized)
+            {
+                lastProjection = currentProjection;
+                projectionInitialized = true;
+            }
+            else
+            {
+                // Nếu xe đi qua vạch (đổi dấu của hình chiếu)
+                if (Mathf.Sign(currentProjection) != Mathf.Sign(lastProjection) && distToCrosswalk < 15f)
+                {
+                    if (trafficLight != null && trafficLight.Red.activeSelf)
+                    {
+                        Debug.LogWarning("[TrafficLight] LỖI VI PHẠM: VƯỢT ĐÈN ĐỎ!");
+                        car.TriggerRedLightFailure();
+                    }
+                    else
+                    {
+                        Debug.LogWarning("[Right-of-way] LỖI VI PHẠM: CỐ TÌNH LẠNG LÁCH VƯỢT QUA KHI NGƯỜI ĐI BỘ ĐANG QUA ĐƯỜNG!");
+                        car.TriggerCrosswalkFailure();
+                    }
+                }
+                lastProjection = currentProjection;
             }
         }
 
@@ -92,7 +164,7 @@ public class PedestrianCrosswalkScenario : MonoBehaviour
             // Kiểm tra xem người đã đi sang bờ bên kia chưa (chỉ xét X và Z)
             Vector3 currentPosFlat = new Vector3(pedestrianModel.position.x, 0, pedestrianModel.position.z);
             Vector3 endPosFlat = new Vector3(endPoint.position.x, 0, endPoint.position.z);
-            if (Vector3.Distance(currentPosFlat, endPosFlat) < 0.1f)
+            if (Vector3.Distance(currentPosFlat, endPosFlat) < 0.6f)
             {
                 isWalking = false;
                 isPedestrianCrossing = false; // Người đã sang đường xong, bãi bỏ lệnh cấm

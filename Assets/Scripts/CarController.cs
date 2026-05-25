@@ -23,6 +23,7 @@ public class VR_CarController : MonoBehaviour
     public GameObject accidentPanel;
     public GameObject speedingFailPanel; // Panel hiện ra khi bị phạt tốc độ
     public GameObject crosswalkFailPanel; // Panel hiện ra khi đè vạch người đi bộ
+    public GameObject ranRedPanel; // Panel hiện ra khi vượt đèn đỏ
     public float resetDelay = 3f;
 
     [Header("Tốc độ Giới hạn")]
@@ -250,6 +251,22 @@ public class VR_CarController : MonoBehaviour
         Time.timeScale = 0f;
         StartCoroutine(ResetGameRoutine());
     }
+
+    public void TriggerRedLightFailure()
+    {
+        if (isCrashed) return;
+        isCrashed = true;
+
+        if (ranRedPanel != null) ranRedPanel.SetActive(true);
+        else if (accidentPanel != null) accidentPanel.SetActive(true);
+
+        if (gasAudio != null) gasAudio.Stop();
+        if (brakeAudio != null) brakeAudio.Stop();
+        if (engineAudio != null) engineAudio.Stop();
+
+        Time.timeScale = 0f;
+        StartCoroutine(ResetGameRoutine());
+    }
     void HandleTurnSignals()
     {
         // Nếu có bật 1 trong 2 bên
@@ -299,7 +316,17 @@ public class VR_CarController : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Road") || isCrashed) return;
-        if (currentSpeed < 2f && !collision.gameObject.CompareTag("EnemyMoto")) return;
+
+        // Check if hitting a pedestrian (even at low speed)
+        bool isPedestrian = collision.gameObject.CompareTag("Pedestrian") ||
+                            collision.gameObject.name.Contains("Person") ||
+                            collision.gameObject.name.Contains("Ch02") ||
+                            collision.gameObject.name.Contains("Ch22") ||
+                            collision.gameObject.name.Contains("Aj") ||
+                            collision.gameObject.name.Contains("The Boss") ||
+                            collision.transform.GetComponentInParent<Animator>() != null;
+
+        if (!isPedestrian && currentSpeed < 2f && !collision.gameObject.CompareTag("EnemyMoto")) return;
 
         isCrashed = true;
 
@@ -314,7 +341,17 @@ public class VR_CarController : MonoBehaviour
         if (gasAudio != null) gasAudio.Stop();
         if (brakeAudio != null) brakeAudio.Stop();
         if (engineAudio != null) engineAudio.Stop();
-        if (accidentPanel != null) accidentPanel.SetActive(true);
+
+        // If it's a pedestrian, display the crosswalk fail explanation panel if available
+        if (isPedestrian && crosswalkFailPanel != null)
+        {
+            crosswalkFailPanel.SetActive(true);
+        }
+        else if (accidentPanel != null)
+        {
+            accidentPanel.SetActive(true);
+        }
+
         Time.timeScale = 0f;
         StartCoroutine(ResetGameRoutine());
     }
