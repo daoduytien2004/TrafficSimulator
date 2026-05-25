@@ -20,6 +20,7 @@ public class WinManager : MonoBehaviour
 
     [Header("Cài đặt")]
     public float fadeInDuration = 1f;
+    public float returnToMenuDelay = 5f;
     public int nextSceneIndex = -1;   // -1 = không có scene tiếp
 
     private CanvasGroup canvasGroup;
@@ -70,6 +71,15 @@ public class WinManager : MonoBehaviour
 
         if (canvasGroup != null)
             StartCoroutine(FadeIn());
+
+        StartCoroutine(ReturnToMenu());
+    }
+
+    private IEnumerator ReturnToMenu()
+    {
+        yield return new WaitForSecondsRealtime(returnToMenuDelay);
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
     }
 
     private IEnumerator FadeIn()

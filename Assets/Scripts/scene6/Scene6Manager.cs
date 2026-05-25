@@ -274,10 +274,7 @@ public class Scene6Manager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(resetDelay);
         Time.timeScale = 1f;
-        if (nextSceneIndex >= 0)
-            SceneManager.LoadScene(nextSceneIndex);
-        else
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("MainMenu");
     }
 
     // =========================================================================
