@@ -108,13 +108,21 @@ public class VR_CarController : MonoBehaviour
 
     void Update()
     {
-        if (isCrashed) return;
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        // Phím 1 / Keypad 1: ưu tiên tắt panel hướng dẫn (giống màn 5 và 6)
+        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
         {
             if (tutorialPanel != null && tutorialPanel.activeSelf)
+            {
                 tutorialPanel.SetActive(false);
+                return; // Thoát sớm để không đổi số N trong frame này
+            }
+            else
+            {
+                SetGearN();
+            }
         }
+
+        if (isCrashed) return;
 
         // --- CHẠY BỘ ĐẾM THỜI GIAN ÂN HẠN ĐÈ VẠCH ---
         if (lineCooldownTimer > 0)
@@ -139,7 +147,7 @@ public class VR_CarController : MonoBehaviour
 
         if ((buttonD != null && buttonD.action.WasPressedThisFrame()) || Input.GetKeyDown(KeyCode.Alpha2)) SetGearD();
         if ((buttonR != null && buttonR.action.WasPressedThisFrame()) || Input.GetKeyDown(KeyCode.Alpha3)) SetGearR();
-        if ((buttonN != null && buttonN.action.WasPressedThisFrame()) || Input.GetKeyDown(KeyCode.Alpha1)) SetGearN();
+        if (buttonN != null && buttonN.action.WasPressedThisFrame()) SetGearN();
 
         float joystickVertical = Input.GetAxisRaw("Vertical");
         float joystickHorizontal = Input.GetAxisRaw("Horizontal");

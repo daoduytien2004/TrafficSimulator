@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using TMPro;
 using System.Collections;
 using UnityEngine.SceneManagement;
@@ -7,7 +7,8 @@ public class FinishZone : MonoBehaviour
 {
     [Header("Cài đặt kết thúc")]
     public GameObject victoryPanel;   // Kéo VictoryPanel vào đây
-    public AudioSource victoryAudio; // (Tùy chọn) Loa phát nhạc chiến thắng
+    public AudioSource victoryAudio; // (Tùy chọn) Loa phát nhạc chiến thắng (cũ)
+    public AudioClip victoryClip;    // (Mới) Kéo trực tiếp file nhạc thô (.mp3, .wav) vào đây
     public float restartDelay = 5f;  // Đợi 5 giây rồi mới reset game
 
     private bool isFinished = false;
@@ -30,7 +31,21 @@ public class FinishZone : MonoBehaviour
         if (victoryPanel != null) victoryPanel.SetActive(true);
 
         // 2. Phát nhạc chiến thắng
-        if (victoryAudio != null) victoryAudio.Play();
+        if (victoryClip != null)
+        {
+            AudioSource source = GetComponent<AudioSource>();
+            if (source == null)
+            {
+                source = gameObject.AddComponent<AudioSource>();
+            }
+            source.clip = victoryClip;
+            source.playOnAwake = false;
+            source.Play();
+        }
+        else if (victoryAudio != null)
+        {
+            victoryAudio.Play();
+        }
 
         // 3. Tìm và xóa hết tất cả xe máy đang có trên map để tránh tai nạn muộn
         PunishmentMoto[] allMotos = FindObjectsOfType<PunishmentMoto>();
